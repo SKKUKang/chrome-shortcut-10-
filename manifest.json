@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "My New Tab Extension",
+    "name": "More Than 10 Shortcuts",
     "version": "1.0",
-    "description": "Add a custom element to the new tab page.",
+    "description": "Unlock the potential to use more than 10 shortcuts in Chrome! With More Than 10 Shortcuts, you can easily add and manage your favorite website shortcuts beyond the default limit. Enhance your new tab experience with a simple and effective shortcut management tool that caters to all your browsing needs!",
     "permissions": ["tabs"],
     "chrome_url_overrides": {
       "newtab": "newtab.html"
