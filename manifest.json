@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "My New Tab Extension",
+    "version": "1.0",
+    "description": "Add a custom element to the new tab page.",
+    "permissions": ["tabs"],
+    "chrome_url_overrides": {
+      "newtab": "newtab.html"
+    }
+  }
