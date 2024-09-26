@@ -1,8 +1,13 @@
 {
     "manifest_version": 3,
     "name": "More Than 10 Shortcuts",
+    "icons": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    },
     "version": "1.0",
-    "description": "Unlock the potential to use more than 10 shortcuts in Chrome! With More Than 10 Shortcuts, you can easily add and manage your favorite website shortcuts beyond the default limit. Enhance your new tab experience with a simple and effective shortcut management tool that caters to all your browsing needs!",
+    "description": "Unlock the potential to use more than 10 shortcuts in Chrome!",
     "permissions": ["tabs"],
     "chrome_url_overrides": {
       "newtab": "newtab.html"

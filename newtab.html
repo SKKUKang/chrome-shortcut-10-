@@ -93,26 +93,22 @@
       display: block;
     }
     #search-container {
-      margin-bottom: 20px;
-    }
+      width: 100%;
+  max-width: 600px; /* 최대 너비를 설정할 수 있습니다 */
+  margin-bottom: 20px;
+}
+    
     #search-input {
-      width: 600px;
-      padding: 10px;
-      font-size: 16px;
-      background-color: #222;
-      color: white;
-      border: 1px solid #555;
-      border-radius: 25px;
+      width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #222;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 25px;
+  box-sizing: border-box; /
     }
-    #search-button {
-      padding: 10px;
-      font-size: 16px;
-      background-color: #444;
-      color: white;
-      border: 1px solid #555;
-      border-radius: 25px;
-      margin-left: 10px;
-    }
+
     #add-shortcut-button {
       display: inline-block;
       margin: 10px;
@@ -166,12 +162,18 @@
       cursor: pointer;
       border-radius: 10px; /* 둥근 사각형 모양 */
     }
+    #shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 20px; /* 좌우 여백을 20px로 설정 */
+}
+
   </style>
 </head>
 <body>
   <div id="search-container">
     <input type="text" id="search-input" placeholder="Search the web">
-    <button id="search-button">Search</button>
   </div>
   <div id="shortcuts"></div>
   <div id="dialog-container">

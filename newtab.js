@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const shortcutsContainer = document.getElementById('shortcuts');
   const searchInput = document.getElementById('search-input');
-  const searchButton = document.getElementById('search-button');
   const addShortcutButton = document.createElement('div');
   addShortcutButton.id = 'add-shortcut-button';
   const dialogContainer = document.getElementById('dialog-container');
@@ -21,10 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'GitHub', url: 'https://www.github.com', icon: 'https://www.github.com/favicon.ico' },
     { name: 'Reddit', url: 'https://www.reddit.com', icon: 'https://www.reddit.com/favicon.ico' },
     { name: 'StackOverflow', url: 'https://stackoverflow.com', icon: 'https://stackoverflow.com/favicon.ico' },
-    { name: 'Gmail', url: 'https://mail.google.com', icon: 'https://mail.google.com/favicon.ico' },
-    { name: 'Amazon', url: 'https://www.amazon.com', icon: 'https://www.amazon.com/favicon.ico' },
-    { name: 'Netflix', url: 'https://www.netflix.com', icon: 'https://www.netflix.com/favicon.ico' },
-    { name: 'Wikipedia', url: 'https://www.wikipedia.org', icon: 'https://www.wikipedia.org/favicon.ico' }
   ];
 
   function loadShortcuts() {
@@ -108,16 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${urlObj.origin}/favicon.ico`;
   }
 
-  searchButton.addEventListener('click', () => {
-    const query = searchInput.value;
-    if (query) {
-      window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-    }
-  });
-
   searchInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
-      searchButton.click();
+      const query = searchInput.value;
+      if (query) {
+        window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      }
     }
   });
 
