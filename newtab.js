@@ -22,46 +22,46 @@ document.addEventListener('DOMContentLoaded', () => {
     { name: 'StackOverflow', url: 'https://stackoverflow.com', icon: 'https://stackoverflow.com/favicon.ico' },
   ];
 
-  function loadShortcuts() {
-    const savedShortcuts = JSON.parse(localStorage.getItem('shortcuts')) || defaultShortcuts;
-    shortcutsContainer.innerHTML = '';
-    savedShortcuts.forEach((shortcut, index) => {
-      const shortcutContainer = document.createElement('div');
-      shortcutContainer.className = 'shortcut-container';
-  
-      const iconContainer = document.createElement('div');
-      iconContainer.className = 'icon-container';
-  
-      const editIcon = document.createElement('div');
-      editIcon.className = 'icon edit-icon';
-      editIcon.addEventListener('click', (event) => {
-        event.preventDefault();
-        editIndex = index;
-        dialogShortcutName.value = shortcut.name;
-        dialogShortcutUrl.value = shortcut.url;
-        dialogContainer.style.display = 'block';
-      });
-  
-      const deleteIcon = document.createElement('div');
-      deleteIcon.className = 'icon delete-icon';
-      deleteIcon.addEventListener('click', (event) => {
-        event.preventDefault();
-        savedShortcuts.splice(index, 1);
-        localStorage.setItem('shortcuts', JSON.stringify(savedShortcuts));
-        loadShortcuts();
-      });
-  
-      iconContainer.appendChild(editIcon);
-      iconContainer.appendChild(deleteIcon);
-      shortcutContainer.appendChild(iconContainer);
-  
-      const shortcutElement = document.createElement('a');
-      shortcutElement.href = shortcut.url;
-      shortcutElement.className = 'shortcut';
-      const shortcutImage = document.createElement('img');
-      shortcutImage.src = shortcut.icon;
-      shortcutImage.alt = shortcut.name;
-      shortcutImage.addEventListener('error', () => {
+function loadShortcuts() {
+  const savedShortcuts = JSON.parse(localStorage.getItem('shortcuts')) || defaultShortcuts;
+  shortcutsContainer.innerHTML = '';
+  savedShortcuts.forEach((shortcut, index) => {
+    const shortcutContainer = document.createElement('div');
+    shortcutContainer.className = 'shortcut-container';
+
+    const iconContainer = document.createElement('div');
+    iconContainer.className = 'icon-container';
+
+    const editIcon = document.createElement('div');
+    editIcon.className = 'icon edit-icon';
+    editIcon.addEventListener('click', (event) => {
+      event.preventDefault();
+      editIndex = index;
+      dialogShortcutName.value = shortcut.name;
+      dialogShortcutUrl.value = shortcut.url;
+      dialogContainer.style.display = 'block';
+    });
+
+    const deleteIcon = document.createElement('div');
+    deleteIcon.className = 'icon delete-icon';
+    deleteIcon.addEventListener('click', (event) => {
+      event.preventDefault();
+      savedShortcuts.splice(index, 1);
+      localStorage.setItem('shortcuts', JSON.stringify(savedShortcuts));
+      loadShortcuts();
+    });
+
+    iconContainer.appendChild(editIcon);
+    iconContainer.appendChild(deleteIcon);
+    shortcutContainer.appendChild(iconContainer);
+
+    const shortcutElement = document.createElement('a');
+    shortcutElement.href = shortcut.url;
+    shortcutElement.className = 'shortcut';
+    const shortcutImage = document.createElement('img');
+    shortcutImage.src = shortcut.icon || getFaviconUrl(shortcut.url);
+    shortcutImage.alt = shortcut.name;
+    shortcutImage.addEventListener('error', () => {
         shortcutImage.style.display = 'none';
         const fallbackText = document.createElement('div');
         fallbackText.textContent = shortcut.name.charAt(0).toUpperCase();
@@ -73,18 +73,18 @@ document.addEventListener('DOMContentLoaded', () => {
         fallbackText.style.width = '100%';
         fallbackText.style.height = '100%';
         shortcutElement.appendChild(fallbackText);
-      });
-  
-      const shortcutName = document.createElement('span');
-      shortcutName.textContent = shortcut.name;
-  
-      shortcutElement.appendChild(shortcutImage);
-      shortcutContainer.appendChild(shortcutElement);
-      shortcutContainer.appendChild(shortcutName);
-      shortcutsContainer.appendChild(shortcutContainer);
     });
-    shortcutsContainer.appendChild(addShortcutButton);
-  }
+
+    const shortcutName = document.createElement('span');
+    shortcutName.textContent = shortcut.name;
+
+    shortcutElement.appendChild(shortcutImage);
+    shortcutContainer.appendChild(shortcutElement);
+    shortcutContainer.appendChild(shortcutName);
+    shortcutsContainer.appendChild(shortcutContainer);
+  });
+  shortcutsContainer.appendChild(addShortcutButton);
+}
   
   function saveShortcut(name, url, icon) {
     const savedShortcuts = JSON.parse(localStorage.getItem('shortcuts')) || defaultShortcuts;
@@ -99,8 +99,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getFaviconUrl(url) {
-    const urlObj = new URL(url);
-    return `${urlObj.origin}/favicon.ico`;
+    try {
+      const urlObj = new URL(url);
+      const googleFaviconUrl = `http://www.google.com/s2/favicons?sz=32&domain=${urlObj.origin}`;
+      const originFaviconUrl = `${urlObj.origin}/favicon.ico`;
+      if(googleFaviconUrl){
+        return googleFaviconUrl;
+      }else{
+        return originFaviconUrl;
+
+      }
+    } catch (e) {
+      return 'default-icon.png'; // 기본 아이콘 URL
+    }
   }
 
   searchInput.addEventListener('keypress', (event) => {
