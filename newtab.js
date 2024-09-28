@@ -12,80 +12,80 @@ document.addEventListener('DOMContentLoaded', () => {
   let editIndex = null;
 
   const defaultShortcuts = [
-    { name: 'Google', url: 'https://www.google.com', icon: 'https://www.google.com/favicon.ico' },
-    { name: 'YouTube', url: 'https://www.youtube.com', icon: 'https://www.youtube.com/favicon.ico' },
-    { name: 'Facebook', url: 'https://www.facebook.com', icon: 'https://www.facebook.com/favicon.ico' },
-    { name: 'Twitter', url: 'https://www.twitter.com', icon: 'https://www.twitter.com/favicon.ico' },
-    { name: 'LinkedIn', url: 'https://www.linkedin.com', icon: 'https://www.linkedin.com/favicon.ico' },
-    { name: 'GitHub', url: 'https://www.github.com', icon: 'https://www.github.com/favicon.ico' },
-    { name: 'Reddit', url: 'https://www.reddit.com', icon: 'https://www.reddit.com/favicon.ico' },
-    { name: 'StackOverflow', url: 'https://stackoverflow.com', icon: 'https://stackoverflow.com/favicon.ico' },
+    { name: 'Google', url: 'https://www.google.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=google.com' },
+    { name: 'YouTube', url: 'https://www.youtube.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=youtube.com'},
+    { name: 'Facebook', url: 'https://www.facebook.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=facebook.com'},
+    { name: 'Twitter', url: 'https://www.twitter.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=twitter.com' },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=linkedin.com' },
+    { name: 'GitHub', url: 'https://www.github.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=github.com' },
+    { name: 'Reddit', url: 'https://www.reddit.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=reddit.com' },
+    { name: 'StackOverflow', url: 'https://stackoverflow.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=stackoverflow.com' },
   ];
 
-function loadShortcuts() {
-  const savedShortcuts = JSON.parse(localStorage.getItem('shortcuts')) || defaultShortcuts;
-  shortcutsContainer.innerHTML = '';
-  savedShortcuts.forEach((shortcut, index) => {
-    const shortcutContainer = document.createElement('div');
-    shortcutContainer.className = 'shortcut-container';
+  function loadShortcuts() {
+    const savedShortcuts = JSON.parse(localStorage.getItem('shortcuts')) || defaultShortcuts;
+    shortcutsContainer.innerHTML = '';
+    savedShortcuts.forEach((shortcut, index) => {
+      const shortcutContainer = document.createElement('div');
+      shortcutContainer.className = 'shortcut-container';
 
-    const iconContainer = document.createElement('div');
-    iconContainer.className = 'icon-container';
+      const iconContainer = document.createElement('div');
+      iconContainer.className = 'icon-container';
 
-    const editIcon = document.createElement('div');
-    editIcon.className = 'icon edit-icon';
-    editIcon.addEventListener('click', (event) => {
-      event.preventDefault();
-      editIndex = index;
-      dialogShortcutName.value = shortcut.name;
-      dialogShortcutUrl.value = shortcut.url;
-      dialogContainer.style.display = 'block';
+      const editIcon = document.createElement('div');
+      editIcon.className = 'icon edit-icon';
+      editIcon.addEventListener('click', (event) => {
+        event.preventDefault();
+        editIndex = index;
+        dialogShortcutName.value = shortcut.name;
+        dialogShortcutUrl.value = shortcut.url;
+        dialogContainer.style.display = 'block';
+      });
+
+      const deleteIcon = document.createElement('div');
+      deleteIcon.className = 'icon delete-icon';
+      deleteIcon.addEventListener('click', (event) => {
+        event.preventDefault();
+        savedShortcuts.splice(index, 1);
+        localStorage.setItem('shortcuts', JSON.stringify(savedShortcuts));
+        loadShortcuts();
+      });
+
+      iconContainer.appendChild(editIcon);
+      iconContainer.appendChild(deleteIcon);
+      shortcutContainer.appendChild(iconContainer);
+
+      const shortcutElement = document.createElement('a');
+      shortcutElement.href = shortcut.url;
+      shortcutElement.className = 'shortcut';
+      const shortcutImage = document.createElement('img');
+      shortcutImage.src = shortcut.icon || getFaviconUrl(shortcut.url);
+      shortcutImage.alt = shortcut.name;
+      shortcutImage.addEventListener('error', () => {
+          shortcutImage.style.display = 'none';
+          const fallbackText = document.createElement('div');
+          fallbackText.textContent = shortcut.name.charAt(0).toUpperCase();
+          fallbackText.style.fontSize = '30px';
+          fallbackText.style.color = 'white';
+          fallbackText.style.display = 'flex';
+          fallbackText.style.alignItems = 'center';
+          fallbackText.style.justifyContent = 'center';
+          fallbackText.style.width = '100%';
+          fallbackText.style.height = '100%';
+          shortcutElement.appendChild(fallbackText);
+      });
+
+      const shortcutName = document.createElement('span');
+      shortcutName.textContent = shortcut.name;
+
+      shortcutElement.appendChild(shortcutImage);
+      shortcutContainer.appendChild(shortcutElement);
+      shortcutContainer.appendChild(shortcutName);
+      shortcutsContainer.appendChild(shortcutContainer);
     });
+    shortcutsContainer.appendChild(addShortcutButton);
+  }
 
-    const deleteIcon = document.createElement('div');
-    deleteIcon.className = 'icon delete-icon';
-    deleteIcon.addEventListener('click', (event) => {
-      event.preventDefault();
-      savedShortcuts.splice(index, 1);
-      localStorage.setItem('shortcuts', JSON.stringify(savedShortcuts));
-      loadShortcuts();
-    });
-
-    iconContainer.appendChild(editIcon);
-    iconContainer.appendChild(deleteIcon);
-    shortcutContainer.appendChild(iconContainer);
-
-    const shortcutElement = document.createElement('a');
-    shortcutElement.href = shortcut.url;
-    shortcutElement.className = 'shortcut';
-    const shortcutImage = document.createElement('img');
-    shortcutImage.src = shortcut.icon || getFaviconUrl(shortcut.url);
-    shortcutImage.alt = shortcut.name;
-    shortcutImage.addEventListener('error', () => {
-        shortcutImage.style.display = 'none';
-        const fallbackText = document.createElement('div');
-        fallbackText.textContent = shortcut.name.charAt(0).toUpperCase();
-        fallbackText.style.fontSize = '30px';
-        fallbackText.style.color = 'white';
-        fallbackText.style.display = 'flex';
-        fallbackText.style.alignItems = 'center';
-        fallbackText.style.justifyContent = 'center';
-        fallbackText.style.width = '100%';
-        fallbackText.style.height = '100%';
-        shortcutElement.appendChild(fallbackText);
-    });
-
-    const shortcutName = document.createElement('span');
-    shortcutName.textContent = shortcut.name;
-
-    shortcutElement.appendChild(shortcutImage);
-    shortcutContainer.appendChild(shortcutElement);
-    shortcutContainer.appendChild(shortcutName);
-    shortcutsContainer.appendChild(shortcutContainer);
-  });
-  shortcutsContainer.appendChild(addShortcutButton);
-}
-  
   function saveShortcut(name, url, icon) {
     const savedShortcuts = JSON.parse(localStorage.getItem('shortcuts')) || defaultShortcuts;
     if (editIndex !== null) {
@@ -130,9 +130,12 @@ function loadShortcuts() {
     dialogContainer.style.display = 'block';
   });
 
-  dialogAddButton.addEventListener('click', () => {
+  function handleAddShortcut() {
     const name = dialogShortcutName.value;
-    const url = dialogShortcutUrl.value;
+    let url = dialogShortcutUrl.value;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://' + url;
+    }
     const icon = getFaviconUrl(url);
     if (name && url) {
       saveShortcut(name, url, icon);
@@ -140,7 +143,22 @@ function loadShortcuts() {
       dialogShortcutUrl.value = '';
       dialogContainer.style.display = 'none';
     }
+  }
+
+  dialogAddButton.addEventListener('click', handleAddShortcut);
+
+  dialogShortcutUrl.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      handleAddShortcut();
+    }
   });
+
+  dialogShortcutName.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      handleAddShortcut();
+    }
+  });
+
 
   dialogCancelButton.addEventListener('click', () => {
     dialogContainer.style.display = 'none';
