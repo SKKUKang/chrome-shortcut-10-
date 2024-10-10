@@ -172,7 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
 const settingsDialog = document.getElementById('settings-dialog');
 const backgroundColorInput = document.getElementById('background-color');
 const backgroundImageInput = document.getElementById('background-image');
-const saveBackgroundSettingsButton = document.getElementById('save-background-settings');
+const saveBackgroundColorSettingsButton = document.getElementById('save-background-color-settings');
+const saveBackgroundImageSettingsButton = document.getElementById('save-background-image-settings');
 const resetBackgroundSettingsButton = document.getElementById('reset-background-settings');
 const closeSettingsDialogButton = document.getElementById('close-settings-dialog');
 
@@ -182,26 +183,30 @@ settingsIcon.addEventListener('click', () => {
 });
 
 // Save settings
-saveBackgroundSettingsButton.addEventListener('click', () => {
+saveBackgroundColorSettingsButton.addEventListener('click', () => {
   const backgroundColor = backgroundColorInput.value;
+  localStorage.setItem('backgroundColor', backgroundColor);
+  localStorage.removeItem('backgroundImage'); // Remove background image if only color is set
+  applyBackgroundSettings();
+  settingsDialog.style.display = 'none'; // Close dialog after saving
+
+});
+
+
+saveBackgroundImageSettingsButton.addEventListener('click', () => {
   const backgroundImageFile = backgroundImageInput.files[0];
-  if (backgroundImageFile) {
-    const reader = new FileReader();
-    reader.onload = function(event) {
+  const reader = new FileReader();
+  reader.onload = function(event) {
       const backgroundImage = event.target.result;
       localStorage.setItem('backgroundImage', backgroundImage);
-      localStorage.setItem('backgroundColor', backgroundColor); // Save color as well
+      localStorage.removeItem('backgroundColor', backgroundColor); // Save color as well
       applyBackgroundSettings();
       settingsDialog.style.display = 'none'; // Close dialog after saving
-    };
+
     reader.readAsDataURL(backgroundImageFile);
-  } else if (backgroundColor) {
-    localStorage.setItem('backgroundColor', backgroundColor);
-    localStorage.removeItem('backgroundImage'); // Remove background image if only color is set
-    applyBackgroundSettings();
-    settingsDialog.style.display = 'none'; // Close dialog after saving
-  }
+  } 
 });
+
 
 // Reset settings
 resetBackgroundSettingsButton.addEventListener('click', () => {
