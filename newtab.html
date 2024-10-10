@@ -185,6 +185,40 @@ a {
   padding: 0 20px; /* 좌우 여백을 20px로 설정 */
   z-index: 9;
 }
+#settings-icon-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+#settings-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#settings-dialog {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: black;
+  padding: 20px;
+  z-index: 10;
+}
+
+#settings-dialog h3 {
+  margin-top: 0;
+}
+
+#settings-dialog label {
+  display: block;
+  margin-top: 10px;
+}
+
+#settings-dialog button {
+  margin-top: 10px;
+}
 
   </style>
 </head>
@@ -198,6 +232,19 @@ a {
     <input type="text" id="dialog-shortcut-url" placeholder="Shortcut URL">
     <button id="dialog-add-button">Add</button>
     <button id="dialog-cancel-button">Cancel</button>
+  </div>
+  <div id="settings-icon-container">
+    <span id="settings-icon">Settings</span>
+  </div>
+  <div id="settings-dialog">
+    <h3>Background Settings</h3>
+    <label for="background-color">Background Color:</label>
+    <input type="color" id="background-color">
+    <label for="background-image">Background Image:</label>
+    <input type="file" id="background-image" accept="image/*">
+    <button id="save-background-settings">Save</button>
+    <button id="reset-background-settings">Reset</button>
+    <button id="close-settings-dialog">Close</button>
   </div>
   <script src="newtab.js"></script>
 </body>

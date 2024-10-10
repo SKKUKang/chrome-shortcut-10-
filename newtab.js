@@ -166,3 +166,95 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadShortcuts();
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const settingsIcon = document.getElementById('settings-icon');
+const settingsDialog = document.getElementById('settings-dialog');
+const backgroundColorInput = document.getElementById('background-color');
+const backgroundImageInput = document.getElementById('background-image');
+const saveBackgroundSettingsButton = document.getElementById('save-background-settings');
+const resetBackgroundSettingsButton = document.getElementById('reset-background-settings');
+const closeSettingsDialogButton = document.getElementById('close-settings-dialog');
+
+// Show settings dialog on settings icon click
+settingsIcon.addEventListener('click', () => {
+  settingsDialog.style.display = 'block';
+});
+
+// Save settings
+saveBackgroundSettingsButton.addEventListener('click', () => {
+  const backgroundColor = backgroundColorInput.value;
+  const backgroundImageFile = backgroundImageInput.files[0];
+  if (backgroundImageFile) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const backgroundImage = event.target.result;
+      localStorage.setItem('backgroundImage', backgroundImage);
+      localStorage.setItem('backgroundColor', backgroundColor); // Save color as well
+      applyBackgroundSettings();
+      settingsDialog.style.display = 'none'; // Close dialog after saving
+    };
+    reader.readAsDataURL(backgroundImageFile);
+  } else if (backgroundColor) {
+    localStorage.setItem('backgroundColor', backgroundColor);
+    localStorage.removeItem('backgroundImage'); // Remove background image if only color is set
+    applyBackgroundSettings();
+    settingsDialog.style.display = 'none'; // Close dialog after saving
+  }
+});
+
+// Reset settings
+resetBackgroundSettingsButton.addEventListener('click', () => {
+  localStorage.removeItem('backgroundColor');
+  localStorage.removeItem('backgroundImage');
+  document.body.style.backgroundColor = '';
+  document.body.style.backgroundImage = '';
+});
+
+// Close settings dialog
+closeSettingsDialogButton.addEventListener('click', () => {
+  settingsDialog.style.display = 'none';
+});
+
+// Apply background settings
+function applyBackgroundSettings() {
+  const backgroundColor = localStorage.getItem('backgroundColor');
+  const backgroundImage = localStorage.getItem('backgroundImage');
+  if (backgroundImage) {
+    document.body.style.backgroundImage = `url(${backgroundImage})`;
+    document.body.style.backgroundSize = 'cover';
+  } else if (backgroundColor) {
+    document.body.style.backgroundColor = backgroundColor;
+    document.body.style.backgroundImage = '';
+  }
+}
+
+applyBackgroundSettings();
+
+// Load bookmarks
+function loadBookmarks() {
+  if (chrome.bookmarks) {
+    chrome.bookmarks.getTree((bookmarkTreeNodes) => {
+      displayBookmarks(bookmarkTreeNodes);
+    });
+  } else {
+    console.error('Bookmarks API is not available');
+  }
+}
+function displayBookmarks(bookmarkNodes) {
+  const bookmarksContainer = document.getElementById('shortcuts');
+  bookmarksContainer.innerHTML = '';
+  bookmarkNodes.forEach((node) => {
+    if (node.children) {
+      displayBookmarks(node.children);
+    } else {
+      const bookmarkElement = document.createElement('a');
+      bookmarkElement.href = node.url;
+      bookmarkElement.textContent = node.title;
+      bookmarksContainer.appendChild(bookmarkElement);
+    }
+  });
+}
+
+loadBookmarks();
+});
