@@ -2,251 +2,11 @@
 <html>
 <head>
   <title>New Tab</title>
-  <style>
-
-
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background-color: rgb(0, 0, 0);
-      color: white;
-    }
-
-  .icon-container {
-    display: flex;
-    justify-content: space-between;
-    position: absolute;
-    top: -10px;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-  }
-
-a {
-  text-decoration : none;
-}
-.shortcut-container {
-      display: inline-block;
-      margin: 10px;
-      text-align: center;
-      width: 70px; /* 아이콘과 버튼을 포함한 너비 */
-      position: relative;
-      justify-content: center; 
-      align-items: center;
-    }
-    .shortcut {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 5px;
-      background-color: #333;
-      border: 1px solid #555;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin: 0 auto; /* 가운데 정렬 */
-    }
-    .shortcut img {
-      width: 80%;
-      height: 80%;
-      border-radius: 50%;
-    }
-
-    .shortcut-container span {
-      display: block;
-      margin-top: 5px;
-      font-size: 11px;
-      color: white;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: center;
-
-    }
-    .icon {
-    visibility:hidden; /* 기본적으로 아이콘을 숨김 */
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background-size: contain;
-    cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    text-align: center;
-    line-height: 15px;
-    font-size: 12px;
-    color: black;
-   }
-    .edit-icon::before {
-      content: '\270E'; /* 연필 아이콘 유니코드 */
-    }
-    .delete-icon::before {
-      content: '\2716'; /* X 아이콘 유니코드 */
-    }
-    .edit-icon {
-      top: -5px;
-      left: -5px;
-      color: green;
-    }
-    .delete-icon {
-      top: -5px;
-      right: -5px;
-      color: red;
-    }
-    
-    .shortcut-container:hover .icon {
-      visibility: visible;
-    }
-
-
-    #search-container {
-      width: 100%;
-  max-width: 600px; /* 최대 너비를 설정할 수 있습니다 */
-  margin-bottom: 20px;
-}
-    
-    #search-input {
-      width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  background-color: #222;
-  color: white;
-  border: 1px solid #555;
-  border-radius: 25px;
-  box-sizing: border-box; /
-    }
-
-    #add-shortcut-button {
-      display: inline-block;
-      margin: 10px;
-      padding: 5px;
-      background-color: #333;
-      border: 1px solid #555;
-      text-align: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-    }
-    #add-shortcut-button::before {
-      content: '+';
-      font-size: 30px;
-      color: white;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    #dialog-container {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #222;
-      padding: 20px;
-      border: 1px solid #555;
-      border-radius: 10px;
-      z-index: 30;
-    }
-    #dialog-container input {
-      width: 200px;
-      padding: 10px;
-      font-size: 16px;
-      margin-bottom: 10px;
-      background-color: #333;
-      color: white;
-      border: 1px solid #555;
-      border-radius: 10px; /* 둥근 사각형 모양 */
-
-    }
-    #dialog-container button {
-      padding: 10px;
-      font-size: 16px;
-      background-color: #444;
-      color: white;
-      border: 1px solid #555;
-      cursor: pointer;
-      border-radius: 10px; /* 둥근 사각형 모양 */
-
-    }
-    #shortcuts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 0 20px; /* 좌우 여백을 20px로 설정 */
-  z-index: 9;
-}
-#settings-icon-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-#settings-icon {
-  font-size: 24px;
-  cursor: pointer;
-}
-
-#settings-dialog {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: black;
-  padding: 20px;
-  z-index: 10;
-}
-
-#settings-dialog h3 {
-  margin-top: 0;
-}
-
-#settings-dialog label {
-  display: block;
-  margin-top: 10px;
-}
-
-#settings-dialog button {
-  margin-top: 10px;
-}
-#bookmarks {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      max-height: 300px;
-      overflow-y: auto;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #555;
-      color: white;
-      font-family: Arial, sans-serif;
-    }
-    ul {
-      list-style-type: none;
-      padding-left: 20px;
-    }
-    a {
-      color: white;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-
-  </style>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+  <!-- 기존 요소들 -->
   <div id="bookmarks"></div>
   <div id="search-container">
     <input type="text" id="search-input" placeholder="Search the web">
@@ -258,21 +18,55 @@ a {
     <button id="dialog-add-button">Add</button>
     <button id="dialog-cancel-button">Cancel</button>
   </div>
-  <div id="settings-icon-container">
-    <img src="settings.png" id="settings-icon" height="30px" width="30px">
-  </div>
-  <div id="settings-dialog">
-    <h3>Background Settings</h3>
-    <button id="reset-background-settings">Reset</button>
-    <label for="background-color">Background Color:</label>
-    <input type="color" id="background-color">
-    <button id="save-background-color-settings">Save</button>
-    <label for="background-image">Background Image:</label>
-    <input type="file" id="background-image" accept="image/*">
-    <button id="save-background-image-settings">Save</button>
 
-    <button id="close-settings-dialog">Close</button>
+  <!-- 배경화면 설정 다이얼로그 -->
+  <div id="background-settings">
+    <div class="settings-section">
+      <div class="settings-title">Background Type</div>
+      <div class="type-selector">
+        <label class="radio-group">
+          <input type="radio" name="background-type" value="color" checked>
+          <span>Color</span>
+        </label>
+        <label class="radio-group">
+          <input type="radio" name="background-type" value="image">
+          <span>Image</span>
+        </label>
+      </div>
+    </div>
+
+    <div id="colorSection" class="settings-section">
+      <div class="settings-title">Select Background Color</div>
+      <div class="color-grid">
+        <div class="color-option" style="background-color: #000000"></div>
+        <div class="color-option" style="background-color: #556B2F"></div>
+        <div class="color-option" style="background-color: #2E3B4E"></div>
+        <div class="color-option" style="background-color: #3D3D3D"></div>
+        <div class="color-option" style="background-color: #4A4E69"></div>
+        <div class="color-option" style="background-color: #37474F"></div>
+      </div>
+      <input type="color" class="custom-color" value="#000000">
+    </div>
+
+    <div id="imageSection" class="settings-section hidden">
+      <div class="settings-title">Upload Background-image</div>
+      <div class="image-upload">
+        <div class="preview">
+          <span>Image Preview</span>
+        </div>
+        <label class="upload-button">
+          Select Image
+          <input type="file" accept="image/*" style="display: none;">
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-buttons">
+      <button class="reset-button">Reset</button>
+      <button class="save-button">Save</button>
+    </div>
   </div>
+
   <script src="newtab.js"></script>
 </body>
 </html>

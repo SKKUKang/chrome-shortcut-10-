@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchInput = document.getElementById('search-input');
   const addShortcutButton = document.createElement('div');
   addShortcutButton.id = 'add-shortcut-button';
+  const addOptionButton = document.createElement('div');
+  addOptionButton.id = 'add-option-button';
   const dialogContainer = document.getElementById('dialog-container');
   const dialogShortcutName = document.getElementById('dialog-shortcut-name');
   const dialogShortcutUrl = document.getElementById('dialog-shortcut-url');
@@ -84,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
       shortcutsContainer.appendChild(shortcutContainer);
     });
     shortcutsContainer.appendChild(addShortcutButton);
+    shortcutsContainer.appendChild(addOptionButton);
   }
 
   function saveShortcut(name, url, icon) {
@@ -130,6 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
     dialogContainer.style.display = 'block';
   });
 
+
+
   function handleAddShortcut() {
     const name = dialogShortcutName.value;
     let url = dialogShortcutUrl.value;
@@ -168,20 +173,169 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-  const settingsIcon = document.getElementById('settings-icon');
-const settingsDialog = document.getElementById('settings-dialog');
-const backgroundColorInput = document.getElementById('background-color');
-const backgroundImageInput = document.getElementById('background-image');
-const saveBackgroundColorSettingsButton = document.getElementById('save-background-color-settings');
-const saveBackgroundImageSettingsButton = document.getElementById('save-background-image-settings');
-const resetBackgroundSettingsButton = document.getElementById('reset-background-settings');
-const closeSettingsDialogButton = document.getElementById('close-settings-dialog');
 
-
-// Show settings dialog on settings icon click
-settingsIcon.addEventListener('click', () => {
-  settingsDialog.style.display = 'block';
+document.getElementById('add-option-button').addEventListener('click', () => {
+  editIndex = null;
+  document.getElementById('background-settings').style.display = 'block';
 });
+
+const STORAGE_KEY_BACKGROUND = 'backgroundSettings';
+const DEFAULT_BACKGROUND = {
+  type: 'color',
+  value: '#000000'
+};
+
+// DOM 요소
+const backgroundSettings = document.getElementById('background-settings');
+const backgroundTypeInputs = document.querySelectorAll('input[name="background-type"]');
+const colorSection = document.getElementById('colorSection');
+const imageSection = document.getElementById('imageSection');
+const colorOptions = document.querySelectorAll('.color-option');
+const customColorInput = document.querySelector('.custom-color');
+const fileInput = document.querySelector('input[type="file"]');
+const preview = document.querySelector('.preview');
+const saveButton = document.querySelector('.save-button');
+const resetButton = document.querySelector('.reset-button');
+
+
+// 배경화면 설정 초기화
+async function initializeBackgroundSettings() {
+  try {
+    const result = await chrome.storage.local.get(STORAGE_KEY_BACKGROUND);
+    const settings = result[STORAGE_KEY_BACKGROUND] || DEFAULT_BACKGROUND;
+    applyBackgroundSettings(settings);
+  } catch (error) {
+    console.error('Error loading background settings:', error);
+  }
+}
+
+// 배경화면 설정 적용
+function applyBackgroundSettings(settings) {
+  if (settings.type === 'color') {
+    document.body.style.backgroundColor = settings.value;
+    document.body.style.backgroundImage = '';
+  } else if (settings.type === 'image') {
+    document.body.style.backgroundImage = `url(${settings.value})`;
+    document.body.style.backgroundSize = 'cover';
+  }
+}
+
+// 배경화면 설정 저장
+async function saveBackgroundSettings(settings) {
+  try {
+    await chrome.storage.local.set({
+      [STORAGE_KEY_BACKGROUND]: settings
+    });
+    applyBackgroundSettings(settings);
+  } catch (error) {
+    console.error('Error saving background settings:', error);
+  }
+}
+// 이벤트 리스너
+addOptionButton.addEventListener('click', () => {
+  backgroundSettings.style.display = 'block';
+});
+
+// 배경 타입 변경 이벤트
+backgroundTypeInputs.forEach(input => {
+  input.addEventListener('change', (e) => {
+    if (e.target.value === 'color') {
+      colorSection.classList.remove('hidden');
+      imageSection.classList.add('hidden');
+    } else {
+      colorSection.classList.add('hidden');
+      imageSection.classList.remove('hidden');
+    }
+  });
+});
+
+// 색상 선택 이벤트
+colorOptions.forEach(option => {
+  option.addEventListener('click', () => {
+    colorOptions.forEach(opt => opt.classList.remove('selected'));
+    option.classList.add('selected');
+    customColorInput.value = rgbToHex(option.style.backgroundColor);
+  });
+});
+
+// 커스텀 색상 선택 이벤트
+customColorInput.addEventListener('input', (e) => {
+  colorOptions.forEach(opt => opt.classList.remove('selected'));
+});
+
+// 이미지 업로드 이벤트
+fileInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// 저장 버튼 클릭 이벤트
+saveButton.addEventListener('click', async () => {
+  const backgroundType = document.querySelector('input[name="background-type"]:checked').value;
+  let settings = { type: backgroundType };
+
+  if (backgroundType === 'color') {
+    const selectedColor = document.querySelector('.color-option.selected');
+    settings.value = selectedColor ? 
+      rgbToHex(selectedColor.style.backgroundColor) : 
+      customColorInput.value;
+  } else {
+    const previewImg = preview.querySelector('img');
+    if (previewImg) {
+      settings.value = previewImg.src;
+    } else {
+      alert('이미지를 선택해주세요.');
+      return;
+    }
+  }
+
+  await saveBackgroundSettings(settings);
+  backgroundSettings.style.display = 'none';
+});
+
+// 초기화 버튼 클릭 이벤트
+resetButton.addEventListener('click', async () => {
+  await saveBackgroundSettings(DEFAULT_BACKGROUND);
+  initializeBackgroundSettings();
+  backgroundSettings.style.display = 'none';
+});
+
+// 다이얼로그 외부 클릭시 닫기
+document.addEventListener('click', (e) => {
+  if (e.target === backgroundSettings) {
+    backgroundSettings.style.display = 'none';
+  }
+});
+
+// RGB to Hex 변환 유틸리티 함수
+function rgbToHex(rgb) {
+  // rgb(r, g, b) 형식에서 숫자만 추출
+  const [r, g, b] = rgb.match(/\d+/g).map(Number);
+  return '#' + [r, g, b].map(x => {
+    const hex = x.toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  }).join('');
+}
+
+// ESC 키로 다이얼로그 닫기
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && backgroundSettings.style.display === 'block') {
+    backgroundSettings.style.display = 'none';
+  }
+});
+
+applyBackgroundSettings({
+  type: localStorage.getItem('backgroundImage') ? 'image' : 'color',
+  value: localStorage.getItem('backgroundImage') || localStorage.getItem('backgroundColor')
+});
+
+/*
 
 // Save settings
 saveBackgroundColorSettingsButton.addEventListener('click', () => {
@@ -236,8 +390,11 @@ function applyBackgroundSettings() {
 }
 
 applyBackgroundSettings();
+*/
+
 
 // 북마크 데이터를 가져와 화면에 표시하는 함수
+/*
 function displayBookmarks() {
   console.log('displayBookmarks');
   chrome.bookmarks.getTree(function(bookmarkTreeNodes) {
@@ -282,3 +439,4 @@ function createBookmarkNode(bookmarkNode) {
 displayBookmarks();
 });
 
+*/ });  
