@@ -80,6 +80,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const shortcutName = document.createElement('span');
       shortcutName.textContent = shortcut.name;
 
+      chrome.storage.local.get('textColorSettings', (result) => {
+        const savedTextColor = result.textColorSettings;
+        if (savedTextColor) {
+          document.querySelectorAll('.shortcut-container span').forEach(span => {
+            span.style.color = savedTextColor;
+          });
+        }
+      });
+
+
       shortcutElement.appendChild(shortcutImage);
       shortcutContainer.appendChild(shortcutElement);
       shortcutContainer.appendChild(shortcutName);
@@ -132,6 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
     dialogShortcutUrl.value = '';
     dialogContainer.style.display = 'block';
   });
+
+
 
 
 

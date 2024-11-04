@@ -1,4 +1,4 @@
-
+/*
 document.addEventListener('DOMContentLoaded', () => {
 
 
@@ -49,3 +49,4 @@ function createBookmarkNode(bookmarkNode) {
 displayBookmarks();
 });
 
+*/
