@@ -34,6 +34,9 @@ document.getElementById('add-option-button').addEventListener('click', () => {
     document.querySelectorAll('.shortcut-container span').forEach(span => {
       span.style.color = color;
     });
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.style.color = color;
+    });
     try {
       await chrome.storage.local.set({ [STORAGE_KEY_TEXT_COLOR]: color });
     } catch (error) {
@@ -54,6 +57,20 @@ document.getElementById('add-option-button').addEventListener('click', () => {
         document.querySelectorAll('.shortcut-container span').forEach(span => {
           span.style.color = savedTextColor;
         });
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.style.color = savedTextColor;
+        });
+      }
+      if (settings.type === 'color') {
+        document.querySelector('input[name="background-type"][value="color"]').checked = true;
+        colorSection.style.display = 'block';
+        imageSection.style.display = 'none';
+        customColorInput.value = settings.value;
+      } else if (settings.type === 'image') {
+        document.querySelector('input[name="background-type"][value="image"]').checked = true;
+        colorSection.style.display = 'none';
+        imageSection.style.display = 'block';
+        preview.innerHTML = `<img src="${settings.value}" alt="Preview">`;
       }
     } catch (error) {
       console.error('Error loading background settings:', error);
@@ -86,20 +103,22 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   addOptionButton.addEventListener('click', () => {
     textColorSettings.style.display = 'block';
     backgroundSettings.style.display = 'block';
+    initializeBackgroundSettings(); // 초기화 함수 호출
   });
   
   // 배경 타입 변경 이벤트
-  backgroundTypeInputs.forEach(input => {
-    input.addEventListener('change', (e) => {
-      if (e.target.value === 'color') {
-        colorSection.classList.remove('hidden');
-        imageSection.classList.add('hidden');
-      } else {
-        colorSection.classList.add('hidden');
-        imageSection.classList.remove('hidden');
-      }
-    });
+// 배경 타입 변경 이벤트 핸들러 추가
+backgroundTypeInputs.forEach(input => {
+  input.addEventListener('change', (e) => {
+    if (e.target.value === 'color') {
+      colorSection.style.display = 'block';
+      imageSection.style.display = 'none';
+    } else if (e.target.value === 'image') {
+      colorSection.style.display = 'none';
+      imageSection.style.display = 'block';
+    }
   });
+});
   
   // 색상 선택 이벤트
   colorOptions.forEach(option => {
