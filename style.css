@@ -23,7 +23,7 @@
 a {
   text-decoration : none;
 }
-.shortcut-container {
+.shortcut-container, .fake-container {
       display: inline-block;
       margin: 10px;
       text-align: center;
@@ -32,6 +32,7 @@ a {
       justify-content: center; 
       align-items: center;
     }
+
     .shortcut {
       display: flex;
       align-items: center;
@@ -51,7 +52,7 @@ a {
       border-radius: 50%;
     }
 
-    .shortcut-container span {
+    .shortcut-container span, #add-shortcut-button span {
       display: block;
       margin-top: 5px;
       font-size: 11px;
@@ -60,7 +61,45 @@ a {
       overflow: hidden;
       text-overflow: ellipsis;
       text-align: center;
+    }
 
+
+    #add-shortcut-button, #add-option-button {
+      display: inline-block;
+      margin: 10px;
+      padding: 5px;
+      background-color: #333;
+      border: 1px solid #555;
+      text-align: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto; /* 가운데 정렬 */
+    }
+    #add-shortcut-button::before {
+      content: '+';
+      font-size: 30px;
+      color: white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #add-option-button::before {
+        content: 'settings'; /* Material Icons 아이콘 이름 */
+        font-family: 'Material Icons';
+    display: block;
+    font-size: 30px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
     }
     .icon {
     visibility:hidden; /* 기본적으로 아이콘을 숨김 */
@@ -115,54 +154,7 @@ a {
   box-sizing: border-box; /
     }
 
-    #add-shortcut-button {
-      display: inline-block;
-      margin: 10px;
-      padding: 5px;
-      background-color: #333;
-      border: 1px solid #555;
-      text-align: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-    }
-    #add-shortcut-button::before {
-      content: '+';
-      font-size: 30px;
-      color: white;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    #add-option-button {
-      display: inline-block;
-      margin: 10px;
-      padding: 5px;
-      background-color: #333;
-      border: 1px solid #555;
-      text-align: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-    }
-    #add-option-button::before {
-        content: 'settings'; /* Material Icons 아이콘 이름 */
-        font-family: 'Material Icons';
-    display: block;
-    font-size: 30px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1;
-    }
+
     #dialog-container {
       display: none;
       position: fixed;

@@ -94,9 +94,17 @@ document.addEventListener('DOMContentLoaded', () => {
       shortcutContainer.appendChild(shortcutElement);
       shortcutContainer.appendChild(shortcutName);
       shortcutsContainer.appendChild(shortcutContainer);
+     
     });
-    shortcutsContainer.appendChild(addShortcutButton);
-    shortcutsContainer.appendChild(addOptionButton);
+    const fakecontainer = document.createElement('div');
+    fakecontainer.className = 'fake-container';
+    fakecontainer.appendChild(addShortcutButton);
+    shortcutsContainer.appendChild(fakecontainer);
+
+    const fakecontainer2 = document.createElement('div');
+    fakecontainer2.className = 'fake-container';
+    fakecontainer2.appendChild(addOptionButton);
+    shortcutsContainer.appendChild(fakecontainer2);
   }
 
   function saveShortcut(name, url, icon) {
