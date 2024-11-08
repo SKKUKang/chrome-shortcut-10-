@@ -295,8 +295,6 @@ imageTypeInputs.forEach(input => {
         dragSrcEl.innerHTML = this.innerHTML;
         this.innerHTML = e.dataTransfer.getData('text/html');
   
-        // 드래그 후 순서 저장
-        console.log(dragSrcIndex,dragDstIndex);
         saveOrder(dragSrcIndex, dragDstIndex);
       }
       return false;
@@ -308,7 +306,6 @@ imageTypeInputs.forEach(input => {
     const shortcuts = JSON.parse(localStorage.getItem('shortcuts')) || [];
     swapArrayElements(shortcuts, srcIndex, dstIndex);
     localStorage.setItem('shortcuts', JSON.stringify(shortcuts));
-    console.log('Shortcut order saved:', shortcuts);
   }
   
   // 배열에서 두 항목의 위치를 서로 바꾸는 함수
