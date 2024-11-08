@@ -268,60 +268,57 @@ imageTypeInputs.forEach(input => {
 
   const shortcutContainers = document.querySelectorAll('.shortcut-container');
   let dragSrcEl = null;
-
-  // 드래그 시작 이벤트
-  shortcutContainers.forEach(container => {
-      container.setAttribute('draggable', true); // 드래그 가능하도록 설정
-      container.addEventListener('dragstart', function (e) {
-          dragSrcEl = this;
-          e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('text/html', this.innerHTML);
-      });
-
-      // 드래그 대상 위로 이동 시
-      container.addEventListener('dragover', function (e) {
-          e.preventDefault();
-          e.dataTransfer.dropEffect = 'move';
-      });
-
-      // 드롭 이벤트
-      container.addEventListener('drop', function (e) {
-          e.stopPropagation();
-          if (dragSrcEl !== this) {
-              dragSrcEl.innerHTML = this.innerHTML;
-              this.innerHTML = e.dataTransfer.getData('text/html');
-
-              // 드래그 후 순서 저장
-              saveOrder();
-          }
-          return false;
-      });
-  });
-
-  // 순서 저장 함수
-  function saveOrder() {
-      const order = Array.from(document.querySelectorAll('.shortcut-container')).map(container => container.id);
-      chrome.storage.local.set({ shortcutOrder: order }, () => {
-          console.log('Shortcut order saved:', order);
-      });
-  }
-
-  // 저장된 순서 불러오기
-  chrome.storage.local.get('shortcutOrder', data => {
-      if (data.shortcutOrder) {
-          const containerParent = document.querySelector('#container-parent'); // 전체 컨테이너의 부모 요소
-          data.shortcutOrder.forEach(id => {
-              const container = document.getElementById(id);
-              if (container) {
-                  containerParent.appendChild(container); // 저장된 순서대로 요소 재배치
-              }
-          });
-      }
-  });
-
-
-
+  let dragSrcIndex = null;
+  let dragDstIndex = null;
   
+  // 드래그 시작 이벤트
+  shortcutContainers.forEach((container, index) => {
+    container.setAttribute('draggable', true); // 드래그 가능하도록 설정
+    container.addEventListener('dragstart', function (e) {
+      dragSrcEl = this;
+      dragSrcIndex = index;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.innerHTML);
+    });
+  
+    // 드래그 대상 위로 이동 시
+    container.addEventListener('dragover', function (e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    });
+  
+    // 드롭 이벤트
+    container.addEventListener('drop', function (e) {
+      e.stopPropagation();
+      if (dragSrcEl !== this) {
+        dragDstIndex = Array.from(shortcutContainers).indexOf(this);
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = e.dataTransfer.getData('text/html');
+  
+        // 드래그 후 순서 저장
+        console.log(dragSrcIndex,dragDstIndex);
+        saveOrder(dragSrcIndex, dragDstIndex);
+      }
+      return false;
+    });
+  });
+  
+  // 순서 저장 함수
+  function saveOrder(srcIndex, dstIndex) {
+    const shortcuts = JSON.parse(localStorage.getItem('shortcuts')) || [];
+    swapArrayElements(shortcuts, srcIndex, dstIndex);
+    localStorage.setItem('shortcuts', JSON.stringify(shortcuts));
+    console.log('Shortcut order saved:', shortcuts);
+  }
+  
+  // 배열에서 두 항목의 위치를 서로 바꾸는 함수
+  function swapArrayElements(arr, index1, index2) {
+    const temp = arr[index1];
+    arr[index1] = arr[index2];
+    arr[index2] = temp;
+  }
+  
+
   initializeBackgroundSettings();
 
 });

@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fakecontainer2.className = 'fake-container';
     fakecontainer2.appendChild(addOptionButton);
     shortcutsContainer.appendChild(fakecontainer2);
+    console.log(savedShortcuts);
   }
 
   
@@ -193,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   loadShortcuts();
+  
 
 
   
