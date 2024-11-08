@@ -10,7 +10,7 @@
   <!--<div id="bookmarks"></div>-->
   <header>
     <div class="nav">
-      <a href="https://mail.google.com/mail/" class="nav-item" id="nav-home">Gmail</a>
+      <a href="https://mail.google.com/mail/" class="nav-item" id="nav-gmail">Gmail</a>
       <a href="https://www.google.com/imghp" class="nav-item" id="nav-image">Image</a>
     </div>
   </header>
@@ -26,11 +26,36 @@
   </div>
 
   <!-- 배경화면 설정 다이얼로그 -->
+
   <div id="background-settings">
     <div id="text-color-settings" class="settings-section">
       <div class="settings-title">Shortcut Text Color</div>
       <input type="color" id="text-color-picker" value="#ffffff">
+
   </div>
+  <div id="header-settings" class="settings-section">
+    <div class="settings-title">Navbar Setting</div>
+    Gmail UI
+    <label class="radio-group">
+      <input type="radio" name="gmail-type" value="gmailyes" >
+      <span>On</span>
+    </label>
+    <label class="radio-group">
+      <input type="radio" name="gmail-type" value="gmailno" checked>
+      <span>Off</span>
+    </label>
+    <br>
+    Image Search UI
+    <label class="radio-group">
+      <input type="radio" name="image-type" value="imageyes">
+      <span>On</span>
+    </label>
+    <label class="radio-group">
+      <input type="radio" name="image-type" value="imageno" checked>
+      <span>Off</span>
+    </label>
+  </div>
+
     <div class="settings-section">
       <div class="settings-title">Background Type</div>
       <div class="type-selector">

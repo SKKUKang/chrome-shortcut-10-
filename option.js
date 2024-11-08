@@ -4,6 +4,8 @@ document.getElementById('add-option-button').addEventListener('click', () => {
     editIndex = null;
     document.getElementById('background-settings').style.display = 'block';
   });
+  const STORAGE_KEY_GMAIL_UI = 'gmailUISettings';
+  const STORAGE_KEY_IMAGE_UI = 'imageUISettings';
   
   const STORAGE_KEY_BACKGROUND = 'backgroundSettings';
   const STORAGE_KEY_TEXT_COLOR = 'textColorSettings';
@@ -26,6 +28,9 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   const resetButton = document.querySelector('.reset-button');
   const addOptionButton = document.getElementById('add-option-button');
   const textColorPicker = document.getElementById('text-color-picker');
+  const gmailTypeInputs = document.querySelectorAll('input[name="gmail-type"]'); // 추가
+  const imageTypeInputs = document.querySelectorAll('input[name="image-type"]'); // 추가
+  
   
   
   
@@ -46,7 +51,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   // 기존 배경화면 설정 초기화 코드...
   async function initializeBackgroundSettings() {
     try {
-      const result = await chrome.storage.local.get([STORAGE_KEY_BACKGROUND, STORAGE_KEY_TEXT_COLOR]);
+      const result = await chrome.storage.local.get([STORAGE_KEY_BACKGROUND, STORAGE_KEY_TEXT_COLOR, STORAGE_KEY_GMAIL_UI, STORAGE_KEY_IMAGE_UI]);
       const settings = result[STORAGE_KEY_BACKGROUND] || DEFAULT_BACKGROUND;
       applyBackgroundSettings(settings);
 
@@ -72,6 +77,29 @@ document.getElementById('add-option-button').addEventListener('click', () => {
         imageSection.style.display = 'block';
         preview.innerHTML = `<img src="${settings.value}" alt="Preview">`;
       }
+      const savedGmailUI = result[STORAGE_KEY_GMAIL_UI];
+      if (savedGmailUI) {
+        document.querySelector(`input[name="gmail-type"][value="${savedGmailUI}"]`).checked = true;
+        const gmailElement = document.getElementById('nav-gmail');
+        if (savedGmailUI === 'gmailyes') {
+          gmailElement.style.display = 'block';
+        } else {
+          gmailElement.style.display = 'none';
+        }
+      }
+      
+      const savedImageUI = result[STORAGE_KEY_IMAGE_UI];
+      if (savedImageUI) {
+        document.querySelector(`input[name="image-type"][value="${savedImageUI}"]`).checked = true;
+        const imageElement = document.getElementById('nav-image');
+        if (savedImageUI === 'imageyes') {
+          imageElement.style.display = 'block';
+        } else {
+          imageElement.style.display = 'none';
+        }
+      }
+
+
     } catch (error) {
       console.error('Error loading background settings:', error);
     }
@@ -119,6 +147,44 @@ backgroundTypeInputs.forEach(input => {
     }
   });
 });
+
+gmailTypeInputs.forEach(input => {
+  input.addEventListener('change', async (e) => {
+    const gmailUI = e.target.value;
+    try {
+      await chrome.storage.local.set({ [STORAGE_KEY_GMAIL_UI]: gmailUI });
+      const gmailElement = document.getElementById('nav-gmail');
+      if (gmailUI === 'gmailyes') {
+        gmailElement.style.display = 'block';
+      } else {
+        gmailElement.style.display = 'none';
+      }
+    } catch (error) {
+      console.error('Error saving Gmail UI settings:', error);
+    }
+  });
+});
+
+// Image UI 설정 변경 이벤트 핸들러 추가
+imageTypeInputs.forEach(input => {
+  input.addEventListener('change', async (e) => {
+    const imageUI = e.target.value;
+    try {
+      await chrome.storage.local.set({ [STORAGE_KEY_IMAGE_UI]: imageUI });
+      const imageElement = document.getElementById('nav-image');
+      if (imageUI === 'imageyes') {
+        imageElement.style.display = 'block';
+      } else {
+        imageElement.style.display = 'none';
+      }
+    } catch (error) {
+      console.error('Error saving Image UI settings:', error);
+    }
+  });
+});
+
+
+
   
   // 색상 선택 이벤트
   colorOptions.forEach(option => {
