@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
       shortcutElement.appendChild(shortcutImage);
       shortcutContainer.appendChild(shortcutElement);
       shortcutContainer.appendChild(shortcutName);
+      shortcutContainer.classList.add('draggable');
       shortcutsContainer.appendChild(shortcutContainer);
      
     });
@@ -106,6 +107,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fakecontainer2.appendChild(addOptionButton);
     shortcutsContainer.appendChild(fakecontainer2);
   }
+
+  
 
   function saveShortcut(name, url, icon) {
     const savedShortcuts = JSON.parse(localStorage.getItem('shortcuts')) || defaultShortcuts;
@@ -192,8 +195,5 @@ document.addEventListener('DOMContentLoaded', () => {
   loadShortcuts();
 
 
-
-
-
-
+  
 });  
