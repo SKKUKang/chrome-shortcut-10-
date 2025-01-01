@@ -15,7 +15,7 @@
       justify-content: flex-end;
       align-items: center;
       width: 100%;
-      padding: 10px 20px;
+      padding: 10px 0px;
       position: fixed;
       top: 0;
       z-index: 20;
@@ -171,7 +171,7 @@ a {
   font-size: 16px;
   background-color: #222;
   color: white;
-  border: 2px solid #555;
+  border: 2.5px solid #555;
   border-radius: 25px;
   box-sizing: border-box;
   border-color: white; 
@@ -302,19 +302,29 @@ a {
 
     .settings-title {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 400;
       color: white;
       margin-bottom: 8px;
+      text-align: left;
+      flex:1;
+    }
+    .color-setting {
+      display: flex;
+      margin-bottom: 10px;
+      align-items: flex-start;
+      margin-right: 80px;
     }
 
+
     .type-selector {
-      display: flex;
+      display: inline-block;
       gap: 16px;
-      margin-bottom: 16px;
+      margin-right: 10px;
     }
 
     .radio-group {
-      display: flex;
+      display: inline-block;
+      margin-left: 10px;
       align-items: center;
       gap: 4px;
       cursor: pointer;
@@ -374,6 +384,8 @@ a {
       overflow: hidden;
       color: #888;
     }
+
+
 
     .preview img {
       max-width: 100%;
