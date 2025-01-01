@@ -9,6 +9,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   
   const STORAGE_KEY_BACKGROUND = 'backgroundSettings';
   const STORAGE_KEY_TEXT_COLOR = 'textColorSettings';
+  const STORAGE_KEY_LINE_COLOR = 'lineColorSettings';
   const DEFAULT_BACKGROUND = {
     type: 'color',
     value: '#000000'
@@ -18,6 +19,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   const backgroundSettings = document.getElementById('background-settings');
   const backgroundTypeInputs = document.querySelectorAll('input[name="background-type"]');
   const textColorSettings = document.getElementById('text-color-settings');
+  const lineColorSettings = document.getElementById('line-color-settings');
   const colorSection = document.getElementById('colorSection');
   const imageSection = document.getElementById('imageSection');
   const colorOptions = document.querySelectorAll('.color-option');
@@ -28,6 +30,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   const resetButton = document.querySelector('.reset-button');
   const addOptionButton = document.getElementById('add-option-button');
   const textColorPicker = document.getElementById('text-color-picker');
+  const lineColorPicker = document.getElementById('line-color-picker');
   const gmailTypeInputs = document.querySelectorAll('input[name="gmail-type"]'); // 추가
   const imageTypeInputs = document.querySelectorAll('input[name="image-type"]'); // 추가
   
@@ -48,15 +51,39 @@ document.getElementById('add-option-button').addEventListener('click', () => {
       console.error('Error saving text color:', error);
     }
   });
+
+  
+  lineColorPicker.addEventListener('input', async (e) => {
+    const color = e.target.value;
+    document.querySelector('#search-input').style.borderColor = color;
+    try {
+      await chrome.storage.local.set({ [STORAGE_KEY_LINE_COLOR]: color });
+    } catch (error) {
+      console.error('Error saving line color:', error);
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
+
   // 기존 배경화면 설정 초기화 코드...
   async function initializeBackgroundSettings() {
     try {
-      const result = await chrome.storage.local.get([STORAGE_KEY_BACKGROUND, STORAGE_KEY_TEXT_COLOR, STORAGE_KEY_GMAIL_UI, STORAGE_KEY_IMAGE_UI]);
+      const result = await chrome.storage.local.get([STORAGE_KEY_BACKGROUND, STORAGE_KEY_TEXT_COLOR, STORAGE_KEY_GMAIL_UI, STORAGE_KEY_IMAGE_UI, STORAGE_KEY_LINE_COLOR]);
       const settings = result[STORAGE_KEY_BACKGROUND] || DEFAULT_BACKGROUND;
       applyBackgroundSettings(settings);
 
       // 저장된 텍스트 색상 불러오기
       const savedTextColor = result[STORAGE_KEY_TEXT_COLOR];
+      const savedLineColor = result[STORAGE_KEY_LINE_COLOR];
       if (savedTextColor) {
         textColorPicker.value = savedTextColor;
         document.querySelectorAll('.shortcut-container span').forEach(span => {
@@ -66,6 +93,12 @@ document.getElementById('add-option-button').addEventListener('click', () => {
           item.style.color = savedTextColor;
         });
       }
+
+      if (savedLineColor) {
+        lineColorPicker.value = savedLineColor;
+        document.querySelector('#search-input').style.borderColor = savedLineColor;
+      }
+
       if (settings.type === 'color') {
         document.querySelector('input[name="background-type"][value="color"]').checked = true;
         colorSection.style.display = 'block';
@@ -130,6 +163,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   // 이벤트 리스너
   addOptionButton.addEventListener('click', () => {
     textColorSettings.style.display = 'block';
+    lineColorSettings.style.display = 'block';
     backgroundSettings.style.display = 'block';
     initializeBackgroundSettings(); // 초기화 함수 호출
   });
