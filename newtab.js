@@ -131,18 +131,33 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getFaviconUrl(url) {
-    try {
-      const urlObj = new URL(url);
-      const googleFaviconUrl = `http://www.google.com/s2/favicons?sz=32&domain=${urlObj.origin}`;
-      const originFaviconUrl = `${urlObj.origin}/favicon.ico`;
-      if(googleFaviconUrl){
+    const savedFavicon = localStorage.getItem(`favicon_${url}`);
+    if (savedFavicon) {
+      return savedFavicon;
+    } else {
+      try {
+        const urlObj = new URL(url);
+        const googleFaviconUrl = `http://www.google.com/s2/favicons?sz=32&domain=${urlObj.origin}`;
+        const originFaviconUrl = `${urlObj.origin}/favicon.ico`;
+  
+        // Favicon을 불러와서 저장하는 로직 추가
+        const img = new Image();
+        img.src = googleFaviconUrl;
+        img.onload = () => {
+          localStorage.setItem(`favicon_${url}`, googleFaviconUrl);
+        };
+        img.onerror = () => {
+          const imgFallback = new Image();
+          imgFallback.src = originFaviconUrl;
+          imgFallback.onload = () => {
+            localStorage.setItem(`favicon_${url}`, originFaviconUrl);
+          };
+        };
+  
         return googleFaviconUrl;
-      }else{
-        return originFaviconUrl;
-
+      } catch (e) {
+        return 'default-icon.png'; // 기본 아이콘 URL
       }
-    } catch (e) {
-      return 'default-icon.png'; // 기본 아이콘 URL
     }
   }
   
