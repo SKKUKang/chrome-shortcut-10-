@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
   addShortcutButton.id = 'add-shortcut-button';
   const addOptionButton = document.createElement('div');
   addOptionButton.id = 'add-option-button';
+  const addSyncButton = document.createElement('div');
+  addSyncButton.id = 'add-sync-button';
   const dialogContainer = document.getElementById('dialog-container');
   const dialogShortcutName = document.getElementById('dialog-shortcut-name');
   const dialogShortcutUrl = document.getElementById('dialog-shortcut-url');
@@ -106,7 +108,12 @@ document.addEventListener('DOMContentLoaded', () => {
     fakecontainer2.className = 'fake-container';
     fakecontainer2.appendChild(addOptionButton);
     shortcutsContainer.appendChild(fakecontainer2);
-    console.log(savedShortcuts);
+
+    const fakecontainer3 = document.createElement('div');
+    fakecontainer3.className = 'fake-container';
+    fakecontainer3.appendChild(addSyncButton);
+    shortcutsContainer.appendChild(fakecontainer3);
+    
   }
 
   

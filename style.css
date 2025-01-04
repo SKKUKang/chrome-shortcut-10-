@@ -85,7 +85,9 @@ a {
     }
 
 
-    #add-shortcut-button, #add-option-button {
+
+
+    #add-shortcut-button, #add-option-button, #add-sync-button {
       display: inline-block;
       margin: 10px;
       padding: 5px;
@@ -122,6 +124,18 @@ a {
       transform: translate(-50%, -50%);
       z-index: 1;
     }
+    #add-sync-button::before {
+      content: 'sync'; /* Material Icons 아이콘 이름 */
+      font-family: 'Material Icons';
+  display: block;
+  font-size: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+  }
+
     .icon {
     visibility:hidden; /* 기본적으로 아이콘을 숨김 */
     position: absolute;
@@ -278,7 +292,7 @@ a {
       text-decoration: underline;
     }
 
-    #background-settings {
+    #background-settings,#sync-settings {
       display: none;
       position: fixed;
       top: 50%;
