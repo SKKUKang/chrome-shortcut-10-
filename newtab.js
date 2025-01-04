@@ -16,14 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let editIndex = null;
 
   const defaultShortcuts = [
-    { name: 'Google', url: 'https://www.google.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=google.com' },
-    { name: 'YouTube', url: 'https://www.youtube.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=youtube.com'},
-    { name: 'Facebook', url: 'https://www.facebook.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=facebook.com'},
-    { name: 'Twitter', url: 'https://www.twitter.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=twitter.com' },
-    { name: 'LinkedIn', url: 'https://www.linkedin.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=linkedin.com' },
-    { name: 'GitHub', url: 'https://www.github.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=github.com' },
-    { name: 'Reddit', url: 'https://www.reddit.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=reddit.com' },
-    { name: 'StackOverflow', url: 'https://stackoverflow.com', icon: 'http://www.google.com/s2/favicons?sz=32&domain=stackoverflow.com' },
+    { name: 'Google', url: 'https://www.google.com', icon: 'defaulticon/google.png' },
+    { name: 'YouTube', url: 'https://www.youtube.com', icon: 'defaulticon/youtube.png' },
+    { name: 'Facebook', url: 'https://www.facebook.com', icon: 'defaulticon/facebook.png' },
+    { name: 'Twitter', url: 'https://www.twitter.com', icon: 'defaulticon/x.png' },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com', icon: 'defaulticon/linkedin.png' },
+    { name: 'GitHub', url: 'https://www.github.com', icon: 'defaulticon/github.png' },
+    { name: 'Reddit', url: 'https://www.reddit.com', icon: 'defaulticon/reddit.png' },
+    { name: 'StackOverflow', url: 'https://stackoverflow.com', icon: 'defaulticon/stackoverflow.png' },
   ];
 
   function loadShortcuts() {
@@ -145,6 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return 'default-icon.png'; // 기본 아이콘 URL
     }
   }
+  
+  
 
   searchInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
