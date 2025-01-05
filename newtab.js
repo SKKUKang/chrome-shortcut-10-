@@ -63,20 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
       shortcutElement.href = shortcut.url;
       shortcutElement.className = 'shortcut';
       const shortcutImage = document.createElement('img');
-      shortcutImage.src = shortcut.icon || getFaviconUrl(shortcut.url);
+      shortcutImage.src = shortcut.icon;
       shortcutImage.alt = shortcut.name;
       shortcutImage.addEventListener('error', () => {
-          shortcutImage.style.display = 'none';
-          const fallbackText = document.createElement('div');
-          fallbackText.textContent = shortcut.name.charAt(0).toUpperCase();
-          fallbackText.style.fontSize = '30px';
-          fallbackText.style.color = 'white';
-          fallbackText.style.display = 'flex';
-          fallbackText.style.alignItems = 'center';
-          fallbackText.style.justifyContent = 'center';
-          fallbackText.style.width = '100%';
-          fallbackText.style.height = '100%';
-          shortcutElement.appendChild(fallbackText);
+        shortcutImage.style.display = 'none';
+        const fallbackText = document.createElement('div');
+        fallbackText.textContent = shortcut.name.charAt(0).toUpperCase();
+        fallbackText.style.fontSize = '30px';
+        fallbackText.style.color = 'white';
+        fallbackText.style.display = 'flex';
+        fallbackText.style.alignItems = 'center';
+        fallbackText.style.justifyContent = 'center';
+        fallbackText.style.width = '100%';
+        fallbackText.style.height = '100%';
+        shortcutElement.appendChild(fallbackText);
       });
 
       const shortcutName = document.createElement('span');
@@ -91,14 +91,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-
       shortcutElement.appendChild(shortcutImage);
       shortcutContainer.appendChild(shortcutElement);
       shortcutContainer.appendChild(shortcutName);
       shortcutContainer.classList.add('draggable');
       shortcutsContainer.appendChild(shortcutContainer);
-     
     });
+
     const fakecontainer = document.createElement('div');
     fakecontainer.className = 'fake-container';
     fakecontainer.appendChild(addShortcutButton);
@@ -113,10 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fakecontainer3.className = 'fake-container';
     fakecontainer3.appendChild(addSyncButton);
     shortcutsContainer.appendChild(fakecontainer3);
-    
   }
-
-  
 
   function saveShortcut(name, url, icon) {
     const savedShortcuts = JSON.parse(localStorage.getItem('shortcuts')) || defaultShortcuts;
@@ -131,37 +127,38 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getFaviconUrl(url) {
-    const savedFavicon = localStorage.getItem(`favicon_${url}`);
-    if (savedFavicon) {
-      return savedFavicon;
-    } else {
+    return new Promise((resolve, reject) => {
+      if (!navigator.onLine) {
+        resolve('defaulticon/default.png');
+        return;
+      }
       try {
         const urlObj = new URL(url);
         const googleFaviconUrl = `http://www.google.com/s2/favicons?sz=32&domain=${urlObj.origin}`;
         const originFaviconUrl = `${urlObj.origin}/favicon.ico`;
   
-        // Favicon을 불러와서 저장하는 로직 추가
+        // Favicon을 불러오는 로직 추가
         const img = new Image();
         img.src = googleFaviconUrl;
         img.onload = () => {
-          localStorage.setItem(`favicon_${url}`, googleFaviconUrl);
+          resolve(googleFaviconUrl);
         };
         img.onerror = () => {
           const imgFallback = new Image();
           imgFallback.src = originFaviconUrl;
           imgFallback.onload = () => {
-            localStorage.setItem(`favicon_${url}`, originFaviconUrl);
+            resolve(originFaviconUrl);
+          };
+          imgFallback.onerror = () => {
+            resolve('defaulticon/default.png');
           };
         };
-  
-        return googleFaviconUrl;
       } catch (e) {
-        return 'default-icon.png'; // 기본 아이콘 URL
+        resolve('defaulticon/default.png'); // 기본 아이콘 URL
       }
-    }
+    });
   }
-  
-  
+
 
   searchInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
@@ -179,18 +176,14 @@ document.addEventListener('DOMContentLoaded', () => {
     dialogContainer.style.display = 'block';
   });
 
-
-
-
-
-  function handleAddShortcut() {
+  async function handleAddShortcut() {
     const name = dialogShortcutName.value;
     let url = dialogShortcutUrl.value;
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       url = 'https://' + url;
     }
-    const icon = getFaviconUrl(url);
     if (name && url) {
+      icon = await getFaviconUrl(url);
       saveShortcut(name, url, icon);
       dialogShortcutName.value = '';
       dialogShortcutUrl.value = '';
@@ -212,14 +205,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-
   dialogCancelButton.addEventListener('click', () => {
     dialogContainer.style.display = 'none';
   });
 
   loadShortcuts();
-  
-
-
-  
-});  
+});
