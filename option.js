@@ -153,7 +153,6 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   }
   // 이벤트 리스너
   addOptionButton.addEventListener('click', () => {
-    textColorSettings.style.display = 'block';
     lineColorSettings.style.display = 'block';
     backgroundSettings.style.display = 'block';
     initializeBackgroundSettings(); // 초기화 함수 호출
