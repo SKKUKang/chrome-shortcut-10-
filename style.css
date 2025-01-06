@@ -84,6 +84,31 @@ a {
       text-align: center;
     }
 
+    .sync-lta-button, .sync-atl-button {
+      padding: 5px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 100;
+      color: white;
+      border: 1px solid #555;
+    }
+
+    .sync-lta-button {
+      background-color: #38bb52;
+    }
+
+    .sync-atl-button {
+      background-color: #630e66;
+    }
+
+    .sync-grid {
+      display: flex;
+      gap: 10px; /* 버튼 사이의 간격 */
+    }
+
+
 
 
 
@@ -419,6 +444,22 @@ a {
 
     .upload-button:hover {
       background-color: #444;
+    }
+    .buy-me-a-coffee {
+      position: relative;
+    }
+
+    .buy-me-a-coffee-background {
+      position: absolute;
+      top: -28px;
+      left: -8px;
+      width: 290px;
+      height: 40px;
+      /* 중심점 물체의 가운데로 */
+      transform-origin: center;
+      background-color: #BD5FFF;
+      border-radius: 25px;
+      z-index: 1;
     }
 
     .settings-buttons {

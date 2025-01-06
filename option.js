@@ -65,15 +65,6 @@ document.getElementById('add-option-button').addEventListener('click', () => {
 
 
 
-
-
-
-
-
-
-
-
-
   // 기존 배경화면 설정 초기화 코드...
   async function initializeBackgroundSettings() {
     try {
