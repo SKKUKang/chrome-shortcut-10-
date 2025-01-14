@@ -10,11 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (localShortcuts.length > 0) {
       const confirmSync = confirm(`Are you sure you want to overwrite ${localShortcuts.length} items from local storage to account shortcuts?`);
       if (confirmSync) {
-        chrome.storage.local.get(null, (localData) => {
-          // chrome.storage.local에 있는 모든 데이터를 가져와서 chrome.storage.sync에 저장
-          chrome.storage.sync.set(localData, () => {
-            location.reload();
-            alert(`Successfully overwritten ${localShortcuts.length} items from local storage to account shortcuts.`);
+        // localStorage의 shortcuts를 chrome.storage.sync에 저장
+        chrome.storage.local.set({ shortcuts: localShortcuts }, () => {
+          // chrome.storage.local의 데이터를 chrome.storage.sync에 저장
+          chrome.storage.local.get(null, (localData) => {
+            chrome.storage.sync.set(localData, () => {
+              location.reload();
+              alert(`Successfully overwritten ${localShortcuts.length} items from local storage to account shortcuts.`);
+            });
           });
         });
       }
@@ -22,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
       alert('No items to overwrite from local storage.');
     }
   });
-
   document.querySelector('.sync-atl-button').addEventListener('click', () => {
     chrome.storage.sync.get(null, (data) => {
       const syncShortcuts = data.shortcuts || [];
