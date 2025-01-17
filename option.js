@@ -319,6 +319,8 @@ imageTypeInputs.forEach(input => {
         this.innerHTML = e.dataTransfer.getData('text/html');
   
         saveOrder(dragSrcIndex, dragDstIndex);
+        location.reload();
+        
       }
       return false;
     });
@@ -327,18 +329,22 @@ imageTypeInputs.forEach(input => {
   // 순서 저장 함수
   function saveOrder(srcIndex, dstIndex) {
     const shortcuts = JSON.parse(localStorage.getItem('shortcuts')) || [];
+    //swapArrayElements(shortcuts, srcIndex, dstIndex);
     swapArrayElements(shortcuts, srcIndex, dstIndex);
     localStorage.setItem('shortcuts', JSON.stringify(shortcuts));
+    
   }
   
   // 배열에서 두 항목의 위치를 서로 바꾸는 함수
   function swapArrayElements(arr, index1, index2) {
     const temp = arr[index1];
-    arr[index1] = arr[index2];
-    arr[index2] = temp;
-  }
-  
+    arr.splice(index1,1);
+    arr.splice(index2,0,temp);
 
+    /*const temp = arr[index1];
+    arr[index1] = arr[index2];
+    arr[index2] = temp;*/
+  }
   initializeBackgroundSettings();
 
 });
