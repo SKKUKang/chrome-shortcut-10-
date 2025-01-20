@@ -29,20 +29,15 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   const preview = document.querySelector('.preview');
   const saveButton = document.querySelector('.save-button');
   const resetButton = document.querySelector('.reset-button');
-  const imageEditButton = document.querySelector('.edit-icon-overlay');
   const addOptionButton = document.getElementById('add-option-button');
   const textColorPicker = document.getElementById('text-color-picker');
   const lineColorPicker = document.getElementById('line-color-picker');
   const gmailTypeInputs = document.querySelectorAll('input[name="gmail-type"]'); // 추가
   const imageTypeInputs = document.querySelectorAll('input[name="image-type"]'); // 추가
-  
-  
 
- imageEditButton.addEventListener('click', () => {
-    console.log('edit');
-  });
 
-  
+
+
   
   textColorPicker.addEventListener('input', async (e) => {
     const color = e.target.value;

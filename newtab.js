@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const dialogShortcutIconEdit = document.getElementById('edit-icon-overlay');
   const dialogAddButton = document.getElementById('dialog-add-button');
   const dialogCancelButton = document.getElementById('dialog-cancel-button');
+  const iconUploadInput = document.getElementById('icon-upload');
 
   let editIndex = null;
 
@@ -241,11 +242,14 @@ document.addEventListener('DOMContentLoaded', () => {
   async function handleAddShortcut() {
     const name = dialogShortcutName.value;
     let url = dialogShortcutUrl.value;
+    let icon = dialogShortcutIcon.src;
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       url = 'https://' + url;
     }
     if (name && url) {
-      icon = await getFaviconUrl(url);
+      if(!icon){
+        icon = await getFaviconUrl(url);
+      }
       saveShortcut(name, url, icon);
       dialogShortcutName.value = '';
       dialogShortcutUrl.value = '';
@@ -282,6 +286,42 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   loadShortcuts();
+
+
+  
+
+  dialogShortcutIconEdit.addEventListener('click', () => {
+    iconUploadInput.click(); // 파일 업로드 입력 클릭
+  });
+
+  iconUploadInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        resizeImage(e.target.result, 50, 50, (resizedImage) => {
+          dialogShortcutIcon.src = resizedImage; // 이미지 미리보기 업데이트
+
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  function resizeImage(base64Str, maxWidth, maxHeight, callback) {
+    const img = new Image();
+    img.src = base64Str;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = maxWidth;
+      canvas.height = maxHeight;
+      ctx.drawImage(img, 0, 0, maxWidth, maxHeight);
+      callback(canvas.toDataURL());
+    };
+  }
+
+
 
 
 
