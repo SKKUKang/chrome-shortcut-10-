@@ -188,8 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getFaviconUrl(url) {
+    console.log('icon3');
     return new Promise((resolve, reject) => {
       if (!navigator.onLine) {
+        console.log('icon4');
         resolve('defaulticon/default.png');
         return;
       }
@@ -200,20 +202,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // Favicon을 불러오는 로직 추가
         const img = new Image();
         img.src = googleFaviconUrl;
+        console.log('icon5');
         img.onload = () => {
+          console.log('icon6');
           resolve(googleFaviconUrl);
         };
         img.onerror = () => {
+          console.log('icon7');
           const imgFallback = new Image();
           imgFallback.src = originFaviconUrl;
           imgFallback.onload = () => {
             resolve(originFaviconUrl);
           };
           imgFallback.onerror = () => {
+            console.log('icon8');
             resolve('defaulticon/default.png');
           };
         };
       } catch (e) {
+        console.log('icon9');
         resolve('defaulticon/default.png'); // 기본 아이콘 URL
       }
     });
@@ -229,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  addShortcutButton.addEventListener('click', () => {
+  addShortcutButton.addEventListener('click', () => { //추가 버튼을 누르면 단지 창을 보이게 할뿐인 코드
     editIndex = null;
     dialogShortcutName.value = '';
     dialogShortcutUrl.value = '';
@@ -239,28 +246,31 @@ document.addEventListener('DOMContentLoaded', () => {
     
   });
 
-  async function handleAddShortcut() {
+  async function handleAddShortcut() { //save 버튼 누르면 실행되는 함수
     const name = dialogShortcutName.value;
     let url = dialogShortcutUrl.value;
     let icon = dialogShortcutIcon.src;
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       url = 'https://' + url;
     }
+    console.log('icon');
     if (name && url) {
-      if(!icon){
+      if(icon.trim() == "null"){
+        console.log('icon2');
         icon = await getFaviconUrl(url);
       }
+      console.log(icon);
       saveShortcut(name, url, icon);
       dialogShortcutName.value = '';
       dialogShortcutUrl.value = '';
-      dialogShortcutIcon.value = '';
+      dialogShortcutIcon.src = 'null';
       dialogShortcutIcon.style.visibility = 'visible';
       dialogShortcutIconEdit.style.visibility = 'visible';
       dialogContainer.style.display = 'none';
     }
   }
 
-  dialogAddButton.addEventListener('click', handleAddShortcut);
+  dialogAddButton.addEventListener('click', handleAddShortcut); //save 버튼 누르면 함수 실행
 
   dialogShortcutUrl.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
