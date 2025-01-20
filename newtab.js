@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const dialogShortcutName = document.getElementById('dialog-shortcut-name');
   const dialogShortcutUrl = document.getElementById('dialog-shortcut-url');
   const dialogShortcutIcon = document.getElementById('dialog-shortcut-icon');
+  const dialogShortcutIconEdit = document.getElementById('edit-icon-overlay');
   const dialogAddButton = document.getElementById('dialog-add-button');
   const dialogCancelButton = document.getElementById('dialog-cancel-button');
 
@@ -45,6 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dialogShortcutName.value = shortcut.name;
         dialogShortcutUrl.value = shortcut.url;
         dialogShortcutIcon.src = shortcut.icon;
+        dialogShortcutIcon.style.visibility = 'visible';
+        dialogShortcutIconEdit.style.visibility = 'visible';
         dialogContainer.style.display= 'grid';
 
       });
@@ -230,7 +233,9 @@ document.addEventListener('DOMContentLoaded', () => {
     dialogShortcutName.value = '';
     dialogShortcutUrl.value = '';
     dialogContainer.style.display = 'grid';
-    dialogShortcutIcon.value = '';
+    dialogShortcutIcon.style.visibility = 'hidden';
+    dialogShortcutIconEdit.style.visibility = 'hidden';
+    
   });
 
   async function handleAddShortcut() {
@@ -245,6 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
       dialogShortcutName.value = '';
       dialogShortcutUrl.value = '';
       dialogShortcutIcon.value = '';
+      dialogShortcutIcon.style.visibility = 'visible';
+      dialogShortcutIconEdit.style.visibility = 'visible';
       dialogContainer.style.display = 'none';
     }
   }

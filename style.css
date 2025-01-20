@@ -221,9 +221,9 @@ a {
 
     #dialog-container {
       display: none;
+      gap: 2px;
       grid-template-columns: auto auto auto;
       grid-template-rows:auto auto;
-      gap:10px;
       position: fixed;
       top: 50%;
       left: 50%;
@@ -233,31 +233,60 @@ a {
       border: 1px solid #555;
       border-radius: 10px;
       z-index: 30;
+      
+    }
+
+    .dialog-icon-wrapper  {
+      grid-row: span 2;
+      display: flex;
+      align-self: center;
+      margin-right: 10px;
+      margin-left: 10px;
+      /*자식 요소들 수직으로 정렬*/
+      display: flex;
+    flex-direction: column; /* 자식 요소들을 수직으로 정렬 */
+      
+    }
+    #dialog-container img {
+      width: 50px;
+      z-index: 1
+    }
+    #dialog-container .edit-icon-overlay {
+      z-index: 99;
+      background-color: #444;
+      margin-top: 10px;
+      color: white;
+      border: 1px solid #555;
+      cursor: pointer;
+      border-radius: 10px; /* 둥근 사각형 모양 */
+      align-self:center;
+
     }
     #dialog-container input {
       width: 200px;
       padding: 10px;
       font-size: 16px;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
       background-color: #333;
       color: white;
       border: 1px solid #555;
       border-radius: 10px; /* 둥근 사각형 모양 */
 
     }
-    #dialog-container button {
-      padding: 10px;
+    #dialog-container .normalButton {
       font-size: 16px;
       background-color: #444;
       color: white;
       border: 1px solid #555;
       cursor: pointer;
       border-radius: 10px; /* 둥근 사각형 모양 */
+      margin-left:10px;
+      margin-bottom: 5px;
+
 
     }
-    #dialog-container img {
-      grid-row: span 2;
-    }
+
+
     #shortcuts {
   display: flex;
   flex-wrap: wrap;

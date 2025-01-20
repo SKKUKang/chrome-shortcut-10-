@@ -19,11 +19,14 @@
   </div>
   <div id="shortcuts"></div>
   <div id="dialog-container" style="display: none;">
-    <input type="text" id="dialog-shortcut-name" placeholder="Shortcut name">
-    <img id="dialog-shortcut-icon" src="defaulticon/default.png">
-    <button id="dialog-add-button">Add</button>
+    <div class="dialog-icon-wrapper">
+      <img id="dialog-shortcut-icon" src="defaulticon/default.png">
+      <button class="edit-icon-overlay" id="edit-icon-overlay">edit</button>
+    </div>
+    <input type="text" id="dialog-shortcut-name" placeholder="Shortcut name">    
+    <button id="dialog-cancel-button" class="normalButton">Cancel</button>
     <input type="text" id="dialog-shortcut-url" placeholder="Shortcut URL">
-    <button id="dialog-cancel-button">Cancel</button>
+    <button id="dialog-add-button" class="normalButton">Save</button>
     
   </div>
 
