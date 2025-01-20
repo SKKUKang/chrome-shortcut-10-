@@ -198,6 +198,7 @@ a {
 
 
     #search-container {
+      display:none;
       width: 100%;
   max-width: 600px; /* 최대 너비를 설정할 수 있습니다 */
   margin-bottom: 20px;
@@ -220,6 +221,9 @@ a {
 
     #dialog-container {
       display: none;
+      grid-template-columns: auto auto auto;
+      grid-template-rows:auto auto;
+      gap:10px;
       position: fixed;
       top: 50%;
       left: 50%;
@@ -250,6 +254,9 @@ a {
       cursor: pointer;
       border-radius: 10px; /* 둥근 사각형 모양 */
 
+    }
+    #dialog-container img {
+      grid-row: span 2;
     }
     #shortcuts {
   display: flex;

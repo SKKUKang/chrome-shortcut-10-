@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const dialogContainer = document.getElementById('dialog-container');
   const dialogShortcutName = document.getElementById('dialog-shortcut-name');
   const dialogShortcutUrl = document.getElementById('dialog-shortcut-url');
+  const dialogShortcutIcon = document.getElementById('dialog-shortcut-icon');
   const dialogAddButton = document.getElementById('dialog-add-button');
   const dialogCancelButton = document.getElementById('dialog-cancel-button');
 
@@ -43,7 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
         editIndex = index;
         dialogShortcutName.value = shortcut.name;
         dialogShortcutUrl.value = shortcut.url;
-        dialogContainer.style.display = 'block';
+        dialogShortcutIcon.src = shortcut.icon;
+        dialogContainer.style.display= 'grid';
+
       });
 
       const deleteIcon = document.createElement('div');
@@ -68,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
       shortcutImage.addEventListener('error', () => {
         shortcutImage.style.display = 'none';
         const fallbackText = document.createElement('div');
-        fallbackText.textContent = shortcut.name.charAt(0).toUpperCase();
+        fallbackText.textContent = shortcut.name.charAt(0);
         fallbackText.style.fontSize = '30px';
         fallbackText.style.color = 'white';
         fallbackText.style.display = 'flex';
@@ -164,6 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
     arr.splice(index1,1);
     arr.splice(index2,0,temp);
   }
+  document.querySelector('#search-container').style.display = 'block';
+
   }
 
   function saveShortcut(name, url, icon) {
@@ -188,7 +193,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const urlObj = new URL(url);
         const googleFaviconUrl = `http://www.google.com/s2/favicons?sz=32&domain=${urlObj.origin}`;
         const originFaviconUrl = `${urlObj.origin}/favicon.ico`;
-  
         // Favicon을 불러오는 로직 추가
         const img = new Image();
         img.src = googleFaviconUrl;
@@ -225,7 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
     editIndex = null;
     dialogShortcutName.value = '';
     dialogShortcutUrl.value = '';
-    dialogContainer.style.display = 'block';
+    dialogContainer.style.display = 'grid';
+    dialogShortcutIcon.value = '';
   });
 
   async function handleAddShortcut() {
@@ -239,6 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
       saveShortcut(name, url, icon);
       dialogShortcutName.value = '';
       dialogShortcutUrl.value = '';
+      dialogShortcutIcon.value = '';
       dialogContainer.style.display = 'none';
     }
   }
@@ -252,6 +258,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   dialogShortcutName.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      handleAddShortcut();
+    }
+  });
+
+
+  dialogShortcutIcon.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
       handleAddShortcut();
     }

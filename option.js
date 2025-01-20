@@ -20,6 +20,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   const backgroundTypeInputs = document.querySelectorAll('input[name="background-type"]');
   const textColorSettings = document.getElementById('text-color-settings');
   const lineColorSettings = document.getElementById('line-color-settings');
+  const searchSettings =document.querySelector('#search-input');
   const colorSection = document.getElementById('colorSection');
   const imageSection = document.getElementById('imageSection');
   const colorOptions = document.querySelectorAll('.color-option');
@@ -55,7 +56,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   
   lineColorPicker.addEventListener('input', async (e) => {
     const color = e.target.value;
-    document.querySelector('#search-input').style.borderColor = color;
+    searchSettings.style.borderColor = color;
     try {
       await chrome.storage.local.set({ [STORAGE_KEY_LINE_COLOR]: color });
     } catch (error) {
@@ -87,7 +88,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
 
       if (savedLineColor) {
         lineColorPicker.value = savedLineColor;
-        document.querySelector('#search-input').style.borderColor = savedLineColor;
+        searchSettings.style.borderColor = savedLineColor;
       }
 
       if (settings.type === 'color') {
@@ -294,57 +295,3 @@ imageTypeInputs.forEach(input => {
 
 });
 
-/* Save settings
-saveBackgroundColorSettingsButton.addEventListener('click', () => {
-  const backgroundColor = backgroundColorInput.value;
-  localStorage.setItem('backgroundColor', backgroundColor);
-  localStorage.removeItem('backgroundImage'); // Remove background image if only color is set
-  applyBackgroundSettings();
-  settingsDialog.style.display = 'none'; // Close dialog after saving
-
-});
-
-
-saveBackgroundImageSettingsButton.addEventListener('click', () => {
-  const backgroundImageFile = backgroundImageInput.files[0];
-  const reader = new FileReader();
-  reader.onload = function(event) {
-      const backgroundImage = event.target.result;
-      localStorage.setItem('backgroundImage', backgroundImage);
-      localStorage.removeItem('backgroundColor', backgroundColor); // Save color as well
-      applyBackgroundSettings();
-      settingsDialog.style.display = 'none'; // Close dialog after saving
-
-    reader.readAsDataURL(backgroundImageFile);
-  } 
-});
-
-
-// Reset settings
-resetBackgroundSettingsButton.addEventListener('click', () => {
-  localStorage.removeItem('backgroundColor');
-  localStorage.removeItem('backgroundImage');
-  document.body.style.backgroundColor = '';
-  document.body.style.backgroundImage = '';
-});
-
-// Close settings dialog
-closeSettingsDialogButton.addEventListener('click', () => {
-  settingsDialog.style.display = 'none';
-});
-
-// Apply background settings
-function applyBackgroundSettings() {
-  const backgroundColor = localStorage.getItem('backgroundColor');
-  const backgroundImage = localStorage.getItem('backgroundImage');
-  if (backgroundImage) {
-    document.body.style.backgroundImage = `url(${backgroundImage})`;
-    document.body.style.backgroundSize = 'cover';
-  } else if (backgroundColor) {
-    document.body.style.backgroundColor = backgroundColor;
-    document.body.style.backgroundImage = '';
-  }
-}
-
-applyBackgroundSettings();
-*/

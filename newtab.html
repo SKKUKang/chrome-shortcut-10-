@@ -18,11 +18,13 @@
     <input type="text" id="search-input" placeholder="Search the web">
   </div>
   <div id="shortcuts"></div>
-  <div id="dialog-container">
+  <div id="dialog-container" style="display: none;">
     <input type="text" id="dialog-shortcut-name" placeholder="Shortcut name">
-    <input type="text" id="dialog-shortcut-url" placeholder="Shortcut URL">
+    <img id="dialog-shortcut-icon" src="defaulticon/default.png">
     <button id="dialog-add-button">Add</button>
+    <input type="text" id="dialog-shortcut-url" placeholder="Shortcut URL">
     <button id="dialog-cancel-button">Cancel</button>
+    
   </div>
 
   <!-- 배경화면 설정 다이얼로그 -->
@@ -113,10 +115,12 @@
     <div class="settings-section">
       <div class="settings-title">Sync Settings</div>
       <div class="settings-description">Sync your Shortcut settings to your Google Account</div>
+      
       <div class="sync-grid">
-      <button class="sync-lta-button">Sync Local to Account</button>
-      <button class="sync-atl-button">Sync Account to Local</button>
+      <button class="sync-lta-button">Sync Local -> Account</button>
+      <button class="sync-atl-button">Sync Account -> Local</button>
     </div>
+    <div class="settings-description" style ="color:red">The sync feature is experimental and may not work properly. We will update it soon. </div>
     <a href="https://www.buymeacoffee.com/junefordevelop" target="_blank" class="buy-me-a-coffee">
       <div class="buy-me-a-coffee-background"></div>
       <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="width: 50% !important; margin-left:25%;margin-top:20px; position: relative; z-index:2;" >
