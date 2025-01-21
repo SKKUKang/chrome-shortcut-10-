@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const dialogAddButton = document.getElementById('dialog-add-button');
   const dialogCancelButton = document.getElementById('dialog-cancel-button');
   const iconUploadInput = document.getElementById('icon-upload');
+  var IconExist = false;
 
   let editIndex = null;
 
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dialogShortcutName.value = shortcut.name;
         dialogShortcutUrl.value = shortcut.url;
         dialogShortcutIcon.src = shortcut.icon;
+        IconExist = true;
         dialogShortcutIcon.style.visibility = 'visible';
         dialogShortcutIconEdit.style.visibility = 'visible';
         dialogContainer.style.display= 'grid';
@@ -255,15 +257,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     console.log('icon');
     if (name && url) {
-      if(icon.trim() == "null"){
+      if(IconExist == false){
         console.log('icon2');
         icon = await getFaviconUrl(url);
+        IconExist = true;
       }
-      console.log(icon);
+      console.log(icon.trim());
       saveShortcut(name, url, icon);
       dialogShortcutName.value = '';
       dialogShortcutUrl.value = '';
-      dialogShortcutIcon.src = 'null';
+      dialogShortcutIcon.src = 'null';//이게 문제!!
+      IconExist = false;
       dialogShortcutIcon.style.visibility = 'visible';
       dialogShortcutIconEdit.style.visibility = 'visible';
       dialogContainer.style.display = 'none';
