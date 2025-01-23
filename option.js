@@ -25,7 +25,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   const imageSection = document.getElementById('imageSection');
   const colorOptions = document.querySelectorAll('.color-option');
   const customColorInput = document.querySelector('.custom-color');
-  const fileInput = document.querySelector('input[type="file"]');
+  const fileInput = document.getElementById('background-image');
   const preview = document.querySelector('.preview');
   const saveButton = document.querySelector('.save-button');
   const resetButton = document.querySelector('.reset-button');
@@ -227,6 +227,7 @@ imageTypeInputs.forEach(input => {
   
   // 이미지 업로드 이벤트
   fileInput.addEventListener('change', (e) => {
+    console.log(e.target.files);
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
