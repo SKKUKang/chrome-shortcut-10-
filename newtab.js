@@ -295,6 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
 
   dialogShortcutIconEdit.addEventListener('click', () => {
+    iconUploadInput.value = '';
     iconUploadInput.click(); // 파일 업로드 입력 클릭
   });
 
