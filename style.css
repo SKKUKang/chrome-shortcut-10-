@@ -84,7 +84,7 @@ a {
       text-align: center;
     }
 
-    .sync-lta-button, .sync-atl-button {
+    .sync-lta-button, .sync-atl-button, #export-shortcuts-button, #import-shortcuts-button {
       padding: 5px;
       margin-top: 10px;
       margin-bottom: 10px;
@@ -95,13 +95,14 @@ a {
       border: 1px solid #555;
     }
 
-    .sync-lta-button {
-      background-color: #38bb52;
+    .sync-lta-button, #export-shortcuts-button {
+      background-color: #b8a410
     }
 
-    .sync-atl-button {
-      background-color: #630e66;
+    .sync-atl-button, #import-shortcuts-button {
+      background-color: #4a90e2;
     }
+
 
     .sync-grid {
       display: flex;
@@ -485,18 +486,7 @@ a {
       position: relative;
     }
 
-    .buy-me-a-coffee-background {
-      position: absolute;
-      top: -28px;
-      left: -8px;
-      width: 290px;
-      height: 40px;
-      /* 중심점 물체의 가운데로 */
-      transform-origin: center;
-      background-color: #BD5FFF;
-      border-radius: 25px;
-      z-index: 1;
-    }
+
 
     .settings-buttons {
       display: flex;

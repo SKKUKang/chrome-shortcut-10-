@@ -119,16 +119,22 @@
   <div id="sync-settings">
     <div class="settings-section">
       <div class="settings-title">Sync Settings</div>
-      <div class="settings-description">Sync your Shortcut settings to your Google Account</div>
+      <div class="settings-description">1. Sync by Google Account</div>
       
       <div class="sync-grid">
       <button class="sync-lta-button">Sync Local -> Account</button>
       <button class="sync-atl-button">Sync Account -> Local</button>
+      </div>
+            <div class="settings-description">2. Sync by JsonFile</div>
+      <div class="sync-grid">
+        <button id="export-shortcuts-button">Export Shortcuts JsonFile</button>
+        <button id="import-shortcuts-button">Import Shortcuts JsonFile</button>
+        <input type="file" id="import-shortcuts-file" style="display:none;">
+      </div>
     </div>
-    <div class="settings-description" style ="color:red">The sync feature is experimental and may not work properly. We will update it soon. </div>
+    
     <a href="https://www.buymeacoffee.com/junefordevelop" target="_blank" class="buy-me-a-coffee">
-      <div class="buy-me-a-coffee-background"></div>
-      <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="width: 50% !important; margin-left:25%;margin-top:20px; position: relative; z-index:2;" >
+      <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="width: 50% !important; margin-left:25%; position: relative; z-index:2;" >
     </a>
       <div class="settings-buttons">
         <button class="sync-tab-button">Close</button>

@@ -326,8 +326,45 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
+  // Export Shortcuts
+  document.getElementById('export-shortcuts-button').addEventListener('click', () => {
+    const shortcuts = JSON.parse(localStorage.getItem('shortcuts')) || defaultShortcuts;
+    const blob = new Blob([JSON.stringify(shortcuts, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'shortcuts-export.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
 
+  // Import Shortcuts
+  document.getElementById('import-shortcuts-button').addEventListener('click', () => {
+    document.getElementById('import-shortcuts-file').click();
+  });
 
+  document.getElementById('import-shortcuts-file').addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const importedShortcuts = JSON.parse(e.target.result);
+        if (Array.isArray(importedShortcuts)) {
+          localStorage.setItem('shortcuts', JSON.stringify(importedShortcuts));
+          loadShortcuts();
+          alert('Shortcuts imported successfully!');
+        } else {
+          alert('Invalid shortcuts file.');
+        }
+      } catch {
+        alert('Failed to import shortcuts.');
+      }
+    };
+    reader.readAsText(file);
+  });
 
 
 });
