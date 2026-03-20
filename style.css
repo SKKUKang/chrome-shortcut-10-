@@ -10,6 +10,26 @@
       color: white;
     }
 
+    #bg-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -10;
+    }
+
+    #dim-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -9;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+    }
+
     header {
       display: flex;
       justify-content: flex-end;
@@ -20,37 +40,41 @@
       top: 0;
       z-index: 20;
     }
-    .nav{
+
+    .nav {
       display: flex;
     }
 
-    .nav-item{
+    .nav-item {
       margin-right: 20px;
       font-size: 14px;
-      display:none;
+      display: none;
 
     }
 
-  .icon-container {
-    display: flex;
-    justify-content: space-between;
-    position: absolute;
-    top: -10px;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-  }
+    .icon-container {
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      top: -10px;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
 
-a {
-  text-decoration : none;
-}
-.shortcut-container, .fake-container {
+    a {
+      text-decoration: none;
+    }
+
+    .shortcut-container,
+    .fake-container {
       display: inline-block;
       margin: 10px;
       text-align: center;
-      width: 70px; /* 아이콘과 버튼을 포함한 너비 */
+      width: 70px;
+      /* 아이콘과 버튼을 포함한 너비 */
       position: relative;
-      justify-content: center; 
+      justify-content: center;
       align-items: center;
     }
 
@@ -65,15 +89,18 @@ a {
       height: 50px;
       border-radius: 50%;
       overflow: hidden;
-      margin: 0 auto; /* 가운데 정렬 */
+      margin: 0 auto;
+      /* 가운데 정렬 */
     }
+
     .shortcut img {
       width: 80%;
       height: 80%;
       border-radius: 50%;
     }
 
-    .shortcut-container span, #add-shortcut-button span {
+    .shortcut-container span,
+    #add-shortcut-button span {
       display: block;
       margin-top: 5px;
       font-size: 11px;
@@ -84,7 +111,10 @@ a {
       text-align: center;
     }
 
-    .sync-lta-button, .sync-atl-button, #export-shortcuts-button, #import-shortcuts-button {
+    .sync-lta-button,
+    .sync-atl-button,
+    #export-shortcuts-button,
+    #import-shortcuts-button {
       padding: 5px;
       margin-top: 10px;
       margin-bottom: 10px;
@@ -95,25 +125,30 @@ a {
       border: 1px solid #555;
     }
 
-    .sync-lta-button, #export-shortcuts-button {
+    .sync-lta-button,
+    #export-shortcuts-button {
       background-color: #b8a410
     }
 
-    .sync-atl-button, #import-shortcuts-button {
+    .sync-atl-button,
+    #import-shortcuts-button {
       background-color: #4a90e2;
     }
 
 
     .sync-grid {
       display: flex;
-      gap: 10px; /* 버튼 사이의 간격 */
+      gap: 10px;
+      /* 버튼 사이의 간격 */
     }
 
 
 
 
 
-    #add-shortcut-button, #add-option-button, #add-sync-button {
+    #add-shortcut-button,
+    #add-option-button,
+    #add-sync-button {
       display: inline-block;
       margin: 10px;
       padding: 5px;
@@ -128,8 +163,10 @@ a {
       cursor: pointer;
       align-items: center;
       justify-content: center;
-      margin: 0 auto; /* 가운데 정렬 */
+      margin: 0 auto;
+      /* 가운데 정렬 */
     }
+
     #add-shortcut-button::before {
       content: '+';
       font-size: 30px;
@@ -139,84 +176,97 @@ a {
       left: 50%;
       transform: translate(-50%, -50%);
     }
+
     #add-option-button::before {
-        content: 'settings'; /* Material Icons 아이콘 이름 */
-        font-family: 'Material Icons';
-    display: block;
-    font-size: 30px;
+      content: 'settings';
+      /* Material Icons 아이콘 이름 */
+      font-family: 'Material Icons';
+      display: block;
+      font-size: 30px;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 1;
     }
+
     #add-sync-button::before {
-      content: 'sync'; /* Material Icons 아이콘 이름 */
+      content: 'sync';
+      /* Material Icons 아이콘 이름 */
       font-family: 'Material Icons';
-  display: block;
-  font-size: 30px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-  }
+      display: block;
+      font-size: 30px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
 
     .icon {
-    visibility:hidden; /* 기본적으로 아이콘을 숨김 */
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background-size: contain;
-    cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    text-align: center;
-    line-height: 15px;
-    font-size: 12px;
-    color: black;
-   }
+      visibility: hidden;
+      /* 기본적으로 아이콘을 숨김 */
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background-size: contain;
+      cursor: pointer;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 15px;
+      font-size: 12px;
+      color: black;
+    }
+
     .edit-icon::before {
-      content: '\270E'; /* 연필 아이콘 유니코드 */
+      content: '\270E';
+      /* 연필 아이콘 유니코드 */
     }
+
     .delete-icon::before {
-      content: '\2716'; /* X 아이콘 유니코드 */
+      content: '\2716';
+      /* X 아이콘 유니코드 */
     }
+
     .edit-icon {
       top: -5px;
       left: -5px;
       color: green;
     }
+
     .delete-icon {
       top: -5px;
       right: -5px;
       color: red;
     }
-    
+
     .shortcut-container:hover .icon {
       visibility: visible;
     }
 
 
     #search-container {
-      display:none;
+      display: none;
       width: 100%;
-  max-width: 600px; /* 최대 너비를 설정할 수 있습니다 */
-  margin-bottom: 20px;
-}
- 
+      max-width: 600px;
+      /* 최대 너비를 설정할 수 있습니다 */
+      margin-bottom: 20px;
+    }
+
     #search-input {
       width: 100%;
       height: 50px;
-      padding-left: 30px; /* 왼쪽에 10px 간격 추가 */
-  font-size: 16px;
-  background-color: #222;
-  color: white;
-  border: 2.5px solid #555;
-  border-radius: 25px;
-  box-sizing: border-box;
-  border-color: white; 
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      padding-left: 30px;
+      /* 왼쪽에 10px 간격 추가 */
+      font-size: 16px;
+      background-color: #222;
+      color: white;
+      border: 2.5px solid #555;
+      border-radius: 25px;
+      box-sizing: border-box;
+      border-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
 
 
@@ -224,7 +274,7 @@ a {
       display: none;
       gap: 2px;
       grid-template-columns: auto auto auto;
-      grid-template-rows:auto auto;
+      grid-template-rows: auto auto;
       position: fixed;
       top: 50%;
       left: 50%;
@@ -234,10 +284,10 @@ a {
       border: 1px solid #555;
       border-radius: 10px;
       z-index: 30;
-      
+
     }
 
-    .dialog-icon-wrapper  {
+    .dialog-icon-wrapper {
       grid-row: span 2;
       display: flex;
       align-self: center;
@@ -245,13 +295,16 @@ a {
       margin-left: 10px;
       /*자식 요소들 수직으로 정렬*/
       display: flex;
-    flex-direction: column; /* 자식 요소들을 수직으로 정렬 */
-      
+      flex-direction: column;
+      /* 자식 요소들을 수직으로 정렬 */
+
     }
+
     #dialog-container img {
       width: 50px;
       z-index: 1
     }
+
     #dialog-container .edit-icon-overlay {
       z-index: 99;
       background-color: #444;
@@ -259,10 +312,12 @@ a {
       color: white;
       border: 1px solid #555;
       cursor: pointer;
-      border-radius: 10px; /* 둥근 사각형 모양 */
-      align-self:center;
+      border-radius: 10px;
+      /* 둥근 사각형 모양 */
+      align-self: center;
 
     }
+
     #dialog-container input {
       width: 200px;
       padding: 10px;
@@ -271,17 +326,20 @@ a {
       background-color: #333;
       color: white;
       border: 1px solid #555;
-      border-radius: 10px; /* 둥근 사각형 모양 */
+      border-radius: 10px;
+      /* 둥근 사각형 모양 */
 
     }
+
     #dialog-container .normalButton {
       font-size: 16px;
       background-color: #444;
       color: white;
       border: 1px solid #555;
       cursor: pointer;
-      border-radius: 10px; /* 둥근 사각형 모양 */
-      margin-left:10px;
+      border-radius: 10px;
+      /* 둥근 사각형 모양 */
+      margin-left: 10px;
       margin-bottom: 5px;
 
 
@@ -289,47 +347,50 @@ a {
 
 
     #shortcuts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 0 20px; /* 좌우 여백을 20px로 설정 */
-  z-index: 9;
-}
-#settings-icon-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0 20px;
+      /* 좌우 여백을 20px로 설정 */
+      z-index: 9;
+    }
 
-#settings-icon {
-  font-size: 24px;
-  cursor: pointer;
-}
+    #settings-icon-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
 
-#settings-dialog {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: black;
-  padding: 20px;
-  z-index: 10;
-}
+    #settings-icon {
+      font-size: 24px;
+      cursor: pointer;
+    }
 
-#settings-dialog h3 {
-  margin-top: 0;
-}
+    #settings-dialog {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: black;
+      padding: 20px;
+      z-index: 10;
+    }
 
-#settings-dialog label {
-  display: block;
-  margin-top: 10px;
-}
+    #settings-dialog h3 {
+      margin-top: 0;
+    }
 
-#settings-dialog button {
-  margin-top: 10px;
-}
-#bookmarks {
+    #settings-dialog label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    #settings-dialog button {
+      margin-top: 10px;
+    }
+
+    #bookmarks {
       position: absolute;
       top: 10px;
       left: 10px;
@@ -342,19 +403,23 @@ a {
       color: white;
       font-family: Arial, sans-serif;
     }
+
     ul {
       list-style-type: none;
       padding-left: 20px;
     }
+
     a {
       color: white;
       text-decoration: none;
     }
+
     a:hover {
       text-decoration: underline;
     }
 
-    #background-settings,#sync-settings {
+    #background-settings,
+    #sync-settings {
       display: none;
       position: fixed;
       top: 50%;
@@ -366,6 +431,7 @@ a {
       border-radius: 10px;
       z-index: 31;
       width: 300px;
+      max-height: 85vh;
       overflow-y: auto;
     }
 
@@ -382,8 +448,9 @@ a {
       color: white;
       margin-bottom: 8px;
       text-align: left;
-      flex:1;
+      flex: 1;
     }
+
     .color-setting {
       display: flex;
       margin-bottom: 10px;
@@ -482,6 +549,7 @@ a {
     .upload-button:hover {
       background-color: #444;
     }
+
     .buy-me-a-coffee {
       position: relative;
     }

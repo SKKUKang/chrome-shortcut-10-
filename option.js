@@ -13,7 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const DEFAULT_BACKGROUND = {
     type: 'color',
     value: '#000000',
-    fitting: 'cover'
+    fitting: 'cover',
+    position: 'center',
+    dimming: false,
+    blur: false
   };
 
   // DOM 요소
@@ -36,6 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const gmailTypeInputs = document.querySelectorAll('input[name="gmail-type"]'); // 추가
   const imageTypeInputs = document.querySelectorAll('input[name="image-type"]'); // 추가
   const imageFittingInputs = document.querySelectorAll('input[name="image-fitting"]');
+  const imagePositionInputs = document.querySelectorAll('input[name="image-position"]');
+  const imageDimmingInput = document.getElementById('image-dimming');
+  const imageBlurInput = document.getElementById('image-blur');
 
 
 
@@ -107,6 +113,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const fitting = settings.fitting || 'cover';
         const fittingRadio = document.querySelector(`input[name="image-fitting"][value="${fitting}"]`);
         if (fittingRadio) fittingRadio.checked = true;
+
+        const position = settings.position || 'center';
+        const positionRadio = document.querySelector(`input[name="image-position"][value="${position}"]`);
+        if (positionRadio) positionRadio.checked = true;
+
+        if (imageDimmingInput) imageDimmingInput.checked = settings.dimming || false;
+        if (imageBlurInput) imageBlurInput.checked = settings.blur || false;
       }
       const savedGmailUI = result[STORAGE_KEY_GMAIL_UI];
       if (savedGmailUI) {
@@ -138,21 +151,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 배경화면 설정 적용
   function applyBackgroundSettings(settings) {
+    const bgLayer = document.getElementById('bg-layer');
+    const dimLayer = document.getElementById('dim-layer');
+
+    // reset body background, we will use bgLayer for image
+    document.body.style.backgroundImage = '';
+
     if (settings.type === 'color') {
       document.body.style.backgroundColor = settings.value;
-      document.body.style.backgroundImage = '';
+      if (bgLayer) bgLayer.style.backgroundImage = '';
+      if (dimLayer) dimLayer.style.display = 'none';
     } else if (settings.type === 'image') {
-      document.body.style.backgroundImage = `url(${settings.value})`;
-      const fitting = settings.fitting || 'cover';
-      if (fitting === 'contain') {
-        document.body.style.backgroundSize = 'contain';
-        document.body.style.backgroundRepeat = 'no-repeat';
-        document.body.style.backgroundPosition = 'center';
-      } else {
-        document.body.style.backgroundSize = 'cover';
-        document.body.style.backgroundRepeat = 'no-repeat';
-        document.body.style.backgroundPosition = 'center';
+      document.body.style.backgroundColor = '#000000'; // fallback
+      if (bgLayer) {
+        bgLayer.style.backgroundImage = `url(${settings.value})`;
+
+        const fitting = settings.fitting || 'cover';
+        if (fitting === 'contain') {
+          bgLayer.style.backgroundSize = 'contain';
+          bgLayer.style.backgroundRepeat = 'no-repeat';
+        } else if (fitting === 'repeat') {
+          bgLayer.style.backgroundSize = 'auto'; // original size for tiling
+          bgLayer.style.backgroundRepeat = 'repeat';
+        } else {
+          bgLayer.style.backgroundSize = 'cover';
+          bgLayer.style.backgroundRepeat = 'no-repeat';
+        }
+
+        const position = settings.position || 'center';
+        bgLayer.style.backgroundPosition = position;
+
+        const isBlur = settings.blur || false;
+        bgLayer.style.filter = isBlur ? 'blur(8px)' : 'none';
+
+        if (isBlur && fitting === 'cover') {
+          bgLayer.style.transform = 'scale(1.05)';
+        } else {
+          bgLayer.style.transform = 'none';
+        }
       }
+
+      const isDimming = settings.dimming || false;
+      if (dimLayer) dimLayer.style.display = isDimming ? 'block' : 'none';
     }
   }
 
@@ -265,9 +305,14 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       const previewImg = preview.querySelector('img');
       const fittingInput = document.querySelector('input[name="image-fitting"]:checked');
+      const positionInput = document.querySelector('input[name="image-position"]:checked');
+
       if (previewImg) {
         settings.value = previewImg.src;
         settings.fitting = fittingInput ? fittingInput.value : 'cover';
+        settings.position = positionInput ? positionInput.value : 'center';
+        settings.dimming = imageDimmingInput ? imageDimmingInput.checked : false;
+        settings.blur = imageBlurInput ? imageBlurInput.checked : false;
       } else {
         alert('Select an image file');
         return;

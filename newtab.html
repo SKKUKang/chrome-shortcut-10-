@@ -8,6 +8,8 @@
 </head>
 
 <body>
+  <div id="bg-layer"></div>
+  <div id="dim-layer"></div>
   <!-- 기존 요소들 -->
   <!--<div id="bookmarks"></div>-->
   <header>
@@ -108,8 +110,8 @@
           <input type="file" accept="image/*" id="background-image" style="display: none;">
         </label>
       </div>
-      <div class="settings-title" style="margin-top: 15px; display: inline-block;">Image Fitting</div>
-      <div class="type-selector" style="display: inline-block;">
+      <div class="settings-title" style="margin-top: 15px;">Image Fitting</div>
+      <div class="type-selector">
         <label class="radio-group">
           <input type="radio" name="image-fitting" value="cover" checked>
           <span>Cover</span>
@@ -117,6 +119,38 @@
         <label class="radio-group">
           <input type="radio" name="image-fitting" value="contain">
           <span>Fit</span>
+        </label>
+        <label class="radio-group">
+          <input type="radio" name="image-fitting" value="repeat">
+          <span>Tile</span>
+        </label>
+      </div>
+
+      <div class="settings-title" style="margin-top: 10px;">Position</div>
+      <div class="type-selector">
+        <label class="radio-group">
+          <input type="radio" name="image-position" value="top">
+          <span>Top</span>
+        </label>
+        <label class="radio-group">
+          <input type="radio" name="image-position" value="center" checked>
+          <span>Center</span>
+        </label>
+        <label class="radio-group">
+          <input type="radio" name="image-position" value="bottom">
+          <span>Bottom</span>
+        </label>
+      </div>
+
+      <div class="settings-title" style="margin-top: 10px;">Effects</div>
+      <div class="type-selector">
+        <label class="radio-group">
+          <input type="checkbox" id="image-dimming">
+          <span>Dim Background</span>
+        </label>
+        <label class="radio-group">
+          <input type="checkbox" id="image-blur">
+          <span>Blur</span>
         </label>
       </div>
     </div>
