@@ -1,26 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-document.getElementById('add-option-button').addEventListener('click', () => {
+  document.getElementById('add-option-button').addEventListener('click', () => {
     editIndex = null;
     document.getElementById('background-settings').style.display = 'block';
   });
   const STORAGE_KEY_GMAIL_UI = 'gmailUISettings';
   const STORAGE_KEY_IMAGE_UI = 'imageUISettings';
-  
+
   const STORAGE_KEY_BACKGROUND = 'backgroundSettings';
   const STORAGE_KEY_TEXT_COLOR = 'textColorSettings';
   const STORAGE_KEY_LINE_COLOR = 'lineColorSettings';
   const DEFAULT_BACKGROUND = {
     type: 'color',
-    value: '#000000'
+    value: '#000000',
+    fitting: 'cover'
   };
-  
+
   // DOM 요소
   const backgroundSettings = document.getElementById('background-settings');
   const backgroundTypeInputs = document.querySelectorAll('input[name="background-type"]');
   const textColorSettings = document.getElementById('text-color-settings');
   const lineColorSettings = document.getElementById('line-color-settings');
-  const searchSettings =document.querySelector('#search-input');
+  const searchSettings = document.querySelector('#search-input');
   const colorSection = document.getElementById('colorSection');
   const imageSection = document.getElementById('imageSection');
   const colorOptions = document.querySelectorAll('.color-option');
@@ -34,11 +35,12 @@ document.getElementById('add-option-button').addEventListener('click', () => {
   const lineColorPicker = document.getElementById('line-color-picker');
   const gmailTypeInputs = document.querySelectorAll('input[name="gmail-type"]'); // 추가
   const imageTypeInputs = document.querySelectorAll('input[name="image-type"]'); // 추가
+  const imageFittingInputs = document.querySelectorAll('input[name="image-fitting"]');
 
 
 
 
-  
+
   textColorPicker.addEventListener('input', async (e) => {
     const color = e.target.value;
     document.querySelectorAll('.shortcut-container span').forEach(span => {
@@ -54,7 +56,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
     }
   });
 
-  
+
   lineColorPicker.addEventListener('input', async (e) => {
     const color = e.target.value;
     searchSettings.style.borderColor = color;
@@ -102,6 +104,9 @@ document.getElementById('add-option-button').addEventListener('click', () => {
         colorSection.style.display = 'none';
         imageSection.style.display = 'block';
         preview.innerHTML = `<img src="${settings.value}" alt="Preview">`;
+        const fitting = settings.fitting || 'cover';
+        const fittingRadio = document.querySelector(`input[name="image-fitting"][value="${fitting}"]`);
+        if (fittingRadio) fittingRadio.checked = true;
       }
       const savedGmailUI = result[STORAGE_KEY_GMAIL_UI];
       if (savedGmailUI) {
@@ -113,7 +118,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
           gmailElement.style.display = 'none';
         }
       }
-      
+
       const savedImageUI = result[STORAGE_KEY_IMAGE_UI];
       if (savedImageUI) {
         document.querySelector(`input[name="image-type"][value="${savedImageUI}"]`).checked = true;
@@ -130,7 +135,7 @@ document.getElementById('add-option-button').addEventListener('click', () => {
       console.error('Error loading background settings:', error);
     }
   }
-  
+
   // 배경화면 설정 적용
   function applyBackgroundSettings(settings) {
     if (settings.type === 'color') {
@@ -138,10 +143,19 @@ document.getElementById('add-option-button').addEventListener('click', () => {
       document.body.style.backgroundImage = '';
     } else if (settings.type === 'image') {
       document.body.style.backgroundImage = `url(${settings.value})`;
-      document.body.style.backgroundSize = 'cover';
+      const fitting = settings.fitting || 'cover';
+      if (fitting === 'contain') {
+        document.body.style.backgroundSize = 'contain';
+        document.body.style.backgroundRepeat = 'no-repeat';
+        document.body.style.backgroundPosition = 'center';
+      } else {
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundRepeat = 'no-repeat';
+        document.body.style.backgroundPosition = 'center';
+      }
     }
   }
-  
+
   // 배경화면 설정 저장
   async function saveBackgroundSettings(settings) {
     try {
@@ -158,59 +172,59 @@ document.getElementById('add-option-button').addEventListener('click', () => {
     backgroundSettings.style.display = 'block';
     initializeBackgroundSettings(); // 초기화 함수 호출
   });
-  
+
   // 배경 타입 변경 이벤트
-// 배경 타입 변경 이벤트 핸들러 추가
-backgroundTypeInputs.forEach(input => {
-  input.addEventListener('change', (e) => {
-    if (e.target.value === 'color') {
-      colorSection.style.display = 'block';
-      imageSection.style.display = 'none';
-    } else if (e.target.value === 'image') {
-      colorSection.style.display = 'none';
-      imageSection.style.display = 'block';
-    }
-  });
-});
-
-gmailTypeInputs.forEach(input => {
-  input.addEventListener('change', async (e) => {
-    const gmailUI = e.target.value;
-    try {
-      await chrome.storage.local.set({ [STORAGE_KEY_GMAIL_UI]: gmailUI });
-      const gmailElement = document.getElementById('nav-gmail');
-      if (gmailUI === 'gmailyes') {
-        gmailElement.style.display = 'block';
-      } else {
-        gmailElement.style.display = 'none';
+  // 배경 타입 변경 이벤트 핸들러 추가
+  backgroundTypeInputs.forEach(input => {
+    input.addEventListener('change', (e) => {
+      if (e.target.value === 'color') {
+        colorSection.style.display = 'block';
+        imageSection.style.display = 'none';
+      } else if (e.target.value === 'image') {
+        colorSection.style.display = 'none';
+        imageSection.style.display = 'block';
       }
-    } catch (error) {
-      console.error('Error saving Gmail UI settings:', error);
-    }
+    });
   });
-});
 
-// Image UI 설정 변경 이벤트 핸들러 추가
-imageTypeInputs.forEach(input => {
-  input.addEventListener('change', async (e) => {
-    const imageUI = e.target.value;
-    try {
-      await chrome.storage.local.set({ [STORAGE_KEY_IMAGE_UI]: imageUI });
-      const imageElement = document.getElementById('nav-image');
-      if (imageUI === 'imageyes') {
-        imageElement.style.display = 'block';
-      } else {
-        imageElement.style.display = 'none';
+  gmailTypeInputs.forEach(input => {
+    input.addEventListener('change', async (e) => {
+      const gmailUI = e.target.value;
+      try {
+        await chrome.storage.local.set({ [STORAGE_KEY_GMAIL_UI]: gmailUI });
+        const gmailElement = document.getElementById('nav-gmail');
+        if (gmailUI === 'gmailyes') {
+          gmailElement.style.display = 'block';
+        } else {
+          gmailElement.style.display = 'none';
+        }
+      } catch (error) {
+        console.error('Error saving Gmail UI settings:', error);
       }
-    } catch (error) {
-      console.error('Error saving Image UI settings:', error);
-    }
+    });
   });
-});
+
+  // Image UI 설정 변경 이벤트 핸들러 추가
+  imageTypeInputs.forEach(input => {
+    input.addEventListener('change', async (e) => {
+      const imageUI = e.target.value;
+      try {
+        await chrome.storage.local.set({ [STORAGE_KEY_IMAGE_UI]: imageUI });
+        const imageElement = document.getElementById('nav-image');
+        if (imageUI === 'imageyes') {
+          imageElement.style.display = 'block';
+        } else {
+          imageElement.style.display = 'none';
+        }
+      } catch (error) {
+        console.error('Error saving Image UI settings:', error);
+      }
+    });
+  });
 
 
 
-  
+
   // 색상 선택 이벤트
   colorOptions.forEach(option => {
     option.addEventListener('click', () => {
@@ -219,12 +233,12 @@ imageTypeInputs.forEach(input => {
       customColorInput.value = rgbToHex(option.style.backgroundColor);
     });
   });
-  
+
   // 커스텀 색상 선택 이벤트
   customColorInput.addEventListener('input', (e) => {
     colorOptions.forEach(opt => opt.classList.remove('selected'));
   });
-  
+
   // 이미지 업로드 이벤트
   fileInput.addEventListener('change', (e) => {
     console.log(e.target.files);
@@ -237,44 +251,46 @@ imageTypeInputs.forEach(input => {
       reader.readAsDataURL(file);
     }
   });
-  
+
   // 저장 버튼 클릭 이벤트
   saveButton.addEventListener('click', async () => {
     const backgroundType = document.querySelector('input[name="background-type"]:checked').value;
     let settings = { type: backgroundType };
-  
+
     if (backgroundType === 'color') {
       const selectedColor = document.querySelector('.color-option.selected');
-      settings.value = selectedColor ? 
-        rgbToHex(selectedColor.style.backgroundColor) : 
+      settings.value = selectedColor ?
+        rgbToHex(selectedColor.style.backgroundColor) :
         customColorInput.value;
     } else {
       const previewImg = preview.querySelector('img');
+      const fittingInput = document.querySelector('input[name="image-fitting"]:checked');
       if (previewImg) {
         settings.value = previewImg.src;
+        settings.fitting = fittingInput ? fittingInput.value : 'cover';
       } else {
         alert('Select an image file');
         return;
       }
     }
-  
+
     await saveBackgroundSettings(settings);
     backgroundSettings.style.display = 'none';
   });
-  
+
   // 초기화 버튼 클릭 이벤트
   resetButton.addEventListener('click', async () => {
     initializeBackgroundSettings();
     backgroundSettings.style.display = 'none';
   });
-  
+
   // 다이얼로그 외부 클릭시 닫기
   document.addEventListener('click', (e) => {
     if (e.target === backgroundSettings) {
       backgroundSettings.style.display = 'none';
     }
   });
-  
+
   // RGB to Hex 변환 유틸리티 함수
   function rgbToHex(rgb) {
     // rgb(r, g, b) 형식에서 숫자만 추출
@@ -284,7 +300,7 @@ imageTypeInputs.forEach(input => {
       return hex.length === 1 ? '0' + hex : hex;
     }).join('');
   }
-  
+
   // ESC 키로 다이얼로그 닫기
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && backgroundSettings.style.display === 'block') {
@@ -292,7 +308,7 @@ imageTypeInputs.forEach(input => {
     }
   });
 
-  
+
   initializeBackgroundSettings();
 
 });

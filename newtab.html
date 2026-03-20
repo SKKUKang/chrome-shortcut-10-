@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>New Tab</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body>
   <!-- 기존 요소들 -->
   <!--<div id="bookmarks"></div>-->
@@ -23,7 +25,7 @@
       <img id="dialog-shortcut-icon" src="defaulticon/default.png">
       <button class="edit-icon-overlay" id="edit-icon-overlay">edit</button>
     </div>
-    <input type="text" id="dialog-shortcut-name" placeholder="Shortcut name">    
+    <input type="text" id="dialog-shortcut-name" placeholder="Shortcut name">
     <button id="dialog-cancel-button" class="normalButton">Cancel</button>
     <input type="text" id="dialog-shortcut-url" placeholder="Shortcut URL">
     <button id="dialog-add-button" class="normalButton">Save</button>
@@ -34,7 +36,7 @@
 
   <div id="background-settings">
     <div id="text-line-color-settings" class="settings-section">
-      
+
       <div class="color-setting">
         <div class="settings-title">Shortcut Text Color</div>
         <input type="color" id="text-color-picker" value="#ffffff">
@@ -45,28 +47,28 @@
       </div>
     </div>
 
-  <div id="header-settings" class="settings-section">
-    <div class="settings-title">Upper Right Navbar Setting</div>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gmail UI
-    <label class="radio-group">
-      <input type="radio" name="gmail-type" value="gmailyes" >
-      <span>On</span>
-    </label>
-    <label class="radio-group">
-      <input type="radio" name="gmail-type" value="gmailno" checked>
-      <span>Off</span>
-    </label>
-    <br>
-    Image Search UI
-    <label class="radio-group">
-      <input type="radio" name="image-type" value="imageyes">
-      <span>On</span>
-    </label>
-    <label class="radio-group">
-      <input type="radio" name="image-type" value="imageno" checked>
-      <span>Off</span>
-    </label>
-  </div>
+    <div id="header-settings" class="settings-section">
+      <div class="settings-title">Upper Right Navbar Setting</div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Gmail UI
+      <label class="radio-group">
+        <input type="radio" name="gmail-type" value="gmailyes">
+        <span>On</span>
+      </label>
+      <label class="radio-group">
+        <input type="radio" name="gmail-type" value="gmailno" checked>
+        <span>Off</span>
+      </label>
+      <br>
+      Image Search UI
+      <label class="radio-group">
+        <input type="radio" name="image-type" value="imageyes">
+        <span>On</span>
+      </label>
+      <label class="radio-group">
+        <input type="radio" name="image-type" value="imageno" checked>
+        <span>Off</span>
+      </label>
+    </div>
 
     <div class="settings-section">
       <div class="settings-title" style="display: inline-block;">Background Type</div>
@@ -103,13 +105,25 @@
         </div>
         <label class="upload-button">
           Select Image
-          <input type="file" accept="image/*" id ="background-image" style="display: none;">
+          <input type="file" accept="image/*" id="background-image" style="display: none;">
+        </label>
+      </div>
+      <div class="settings-title" style="margin-top: 15px; display: inline-block;">Image Fitting</div>
+      <div class="type-selector" style="display: inline-block;">
+        <label class="radio-group">
+          <input type="radio" name="image-fitting" value="cover" checked>
+          <span>Cover</span>
+        </label>
+        <label class="radio-group">
+          <input type="radio" name="image-fitting" value="contain">
+          <span>Fit</span>
         </label>
       </div>
     </div>
     <div style="align-self: center; text-align: center;">
-    <a href="https://juneforpay.tistory.com/entry/How-to-use-More-Than-10-Shortcuts-200-Updated" style="font-size:small" >How to use?</a>
-  </div>
+      <a href="https://juneforpay.tistory.com/entry/How-to-use-More-Than-10-Shortcuts-200-Updated"
+        style="font-size:small">How to use?</a>
+    </div>
     <div class="settings-buttons">
       <button class="reset-button">Cancel</button>
       <button class="save-button">Save</button>
@@ -120,25 +134,26 @@
     <div class="settings-section">
       <div class="settings-title">Sync Settings</div>
       <div class="settings-description">1. Sync by Google Account</div>
-      
+
       <div class="sync-grid">
-      <button class="sync-lta-button">Sync Local -> Account</button>
-      <button class="sync-atl-button">Sync Account -> Local</button>
+        <button class="sync-lta-button">Sync Local -> Account</button>
+        <button class="sync-atl-button">Sync Account -> Local</button>
       </div>
-            <div class="settings-description">2. Sync by JsonFile</div>
+      <div class="settings-description">2. Sync by JsonFile</div>
       <div class="sync-grid">
         <button id="export-shortcuts-button">Export Shortcuts JsonFile</button>
         <button id="import-shortcuts-button">Import Shortcuts JsonFile</button>
         <input type="file" id="import-shortcuts-file" style="display:none;">
       </div>
     </div>
-    
+
     <a href="https://www.buymeacoffee.com/junefordevelop" target="_blank" class="buy-me-a-coffee">
-      <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="width: 50% !important; margin-left:25%; position: relative; z-index:2;" >
+      <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee"
+        style="width: 50% !important; margin-left:25%; position: relative; z-index:2;">
     </a>
-      <div class="settings-buttons">
-        <button class="sync-tab-button">Close</button>
-      </div>
+    <div class="settings-buttons">
+      <button class="sync-tab-button">Close</button>
+    </div>
   </div>
 
   <script src="newtab.js"></script>
@@ -146,4 +161,5 @@
   <script src="sync.js"></script>
 
 </body>
+
 </html>
